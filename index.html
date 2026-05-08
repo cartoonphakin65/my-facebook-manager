@@ -1731,14 +1731,21 @@
                         payload.params = { url: args[0] };
                     }
 
-                    fetch(API_URL, {
+                    const options = {
                         method: 'POST',
                         body: JSON.stringify(payload),
                         headers: {
                             'Content-Type': 'text/plain;charset=utf-8'
-                        }
+                        },
+                        redirect: 'follow',
+                        mode: 'cors'
+                    };
+
+                    fetch(API_URL, options)
+                    .then(res => {
+                        if (!res.ok) throw new Error('Network response was not ok: ' + res.status);
+                        return res.json();
                     })
-                    .then(res => res.json())
                     .then(data => {
                         if (data.success !== false || data.success === undefined) {
                             if (successCb) {
@@ -1753,8 +1760,9 @@
                         }
                     })
                     .catch(err => {
-                        console.error("API Fetch Error:", err);
-                        if (errorCb) errorCb(err);
+                        console.error("API Fetch Error Details:", err);
+                        // ถ้าเกิด Load failed (CORS/Redirect issue) ให้ลองแจ้งเตือนผู้ใช้หรือลองแบบ GET
+                        if (errorCb) errorCb(new Error('เชื่อมต่อระบบไม่ได้ (Load failed) กรุณาตรวจสอบสิทธิ์ "Anyone" ใน Apps Script หรือใช้เบราว์เซอร์ปกติ'));
                     });
                 };
             });
