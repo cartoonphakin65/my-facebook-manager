@@ -1731,19 +1731,17 @@
                         payload.params = { url: args[0] };
                     }
 
-                    const options = {
-                        method: 'POST',
-                        body: JSON.stringify(payload),
-                        headers: {
-                            'Content-Type': 'text/plain;charset=utf-8'
-                        },
+                    // ใช้ GET แทน POST เพื่อเลี่ยงปัญหาการบล็อก Redirect ในบางเบราว์เซอร์
+                    const queryString = `?action=${encodeURIComponent(method)}&params=${encodeURIComponent(JSON.stringify(payload.params))}`;
+                    const FINAL_URL = API_URL + queryString;
+
+                    fetch(FINAL_URL, {
+                        method: 'GET',
                         redirect: 'follow',
                         mode: 'cors'
-                    };
-
-                    fetch(API_URL, options)
+                    })
                     .then(res => {
-                        if (!res.ok) throw new Error('Network response was not ok: ' + res.status);
+                        if (!res.ok) throw new Error('HTTP ' + res.status);
                         return res.json();
                     })
                     .then(data => {
@@ -1761,8 +1759,7 @@
                     })
                     .catch(err => {
                         console.error("API Fetch Error Details:", err);
-                        // ถ้าเกิด Load failed (CORS/Redirect issue) ให้ลองแจ้งเตือนผู้ใช้หรือลองแบบ GET
-                        if (errorCb) errorCb(new Error('เชื่อมต่อระบบไม่ได้ (Load failed) กรุณาตรวจสอบสิทธิ์ "Anyone" ใน Apps Script หรือใช้เบราว์เซอร์ปกติ'));
+                        if (errorCb) errorCb(new Error('เชื่อมต่อ API ไม่สำเร็จ: ' + err.message));
                     });
                 };
             });
