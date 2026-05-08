@@ -1,0 +1,3200 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Account Manager</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <style>
+    /* ============================================
+   Facebook Account Manager - Minimal Design V8
+   Color Scheme: White & Dark Gray
+   Style: Clean, Modern, Minimal
+   ============================================ */
+
+    /* ============================================
+   CSS VARIABLES - Design System
+   ============================================ */
+    :root {
+        /* Colors - Minimal Palette */
+        --color-primary: #2c3e50;
+        /* Dark Gray */
+        --color-primary-dark: #1a252f;
+        /* Darker Gray */
+        --color-primary-light: #34495e;
+        /* Light Dark Gray */
+
+        --color-white: #ffffff;
+        --color-off-white: #f8f9fa;
+        --color-light-gray: #e9ecef;
+        --color-medium-gray: #dee2e6;
+        --color-dark-gray: #495057;
+        --color-text: #212529;
+        --color-text-muted: #6c757d;
+
+        /* Accent Colors */
+        --color-success: #27ae60;
+        --color-warning: #f39c12;
+        --color-danger: #e74c3c;
+        --color-info: #3498db;
+
+        /* Spacing */
+        --spacing-xs: 0.25rem;
+        --spacing-sm: 0.5rem;
+        --spacing-md: 1rem;
+        --spacing-lg: 1.5rem;
+        --spacing-xl: 2rem;
+        --spacing-2xl: 3rem;
+
+        /* Border Radius - Pill Shape */
+        --radius-pill: 50px;
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 16px;
+
+        /* Shadows */
+        --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+        --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+        --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.2);
+
+        /* Transitions */
+        --transition-fast: 150ms ease;
+        --transition-base: 250ms ease;
+        --transition-slow: 350ms ease;
+
+        /* Typography */
+        --font-family: 'Sarabun', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        --font-size-xs: 0.75rem;
+        --font-size-sm: 0.875rem;
+        --font-size-base: 1rem;
+        --font-size-lg: 1.125rem;
+        --font-size-xl: 1.25rem;
+        --font-size-2xl: 1.5rem;
+        --font-size-3xl: 2rem;
+    }
+
+    /* ============================================
+   RESET & BASE STYLES
+   ============================================ */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        font-size: 16px;
+        scroll-behavior: smooth;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+        font-family: var(--font-family);
+        font-size: var(--font-size-base);
+        line-height: 1.6;
+        color: var(--color-text);
+        background: var(--color-off-white);
+        min-height: 100vh;
+    }
+
+    /* ============================================
+   LAYOUT - HEADER (ปุ่มบรรทัดเดียวกับหัวข้อ)
+   ============================================ */
+    header {
+        background: var(--color-white);
+        border-bottom: 1px solid var(--color-light-gray);
+        padding: var(--spacing-md) var(--spacing-xl);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: var(--shadow-sm);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--spacing-lg);
+        flex-wrap: wrap;
+    }
+
+    header h1 {
+        font-size: var(--font-size-2xl);
+        font-weight: 600;
+        color: var(--color-primary);
+        margin: 0;
+    }
+
+    .header-actions {
+        display: flex;
+        gap: var(--spacing-xs);
+        align-items: center;
+        flex-wrap: nowrap;
+    }
+
+    /* ============================================
+   BUTTONS - PILL SHAPED WITH OUTLINE DEFAULT
+   ============================================ */
+    button,
+    .btn {
+        font-family: var(--font-family);
+        font-size: var(--font-size-xs);
+        font-weight: 500;
+        padding: var(--spacing-xs) var(--spacing-md);
+        border: 2px solid var(--color-primary);
+        border-radius: var(--radius-pill);
+        cursor: pointer;
+        transition: all var(--transition-base);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacing-xs);
+        white-space: nowrap;
+        text-decoration: none;
+        outline: none;
+        background: var(--color-white);
+        color: var(--color-primary);
+    }
+
+    /* Hover State - Fill with color */
+    button:hover,
+    .btn:hover {
+        background: var(--color-primary);
+        color: var(--color-white);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
+    }
+
+    button:active,
+    .btn:active {
+        transform: translateY(0);
+        box-shadow: var(--shadow-sm);
+    }
+
+    /* Success Button (Add New, Save) - สีเขียว */
+    .btn-success,
+    button.add-new,
+    #detailModal .add-new,
+    #simTopUpModal .add-new {
+        border-color: var(--color-success);
+        color: var(--color-success);
+    }
+
+    .btn-success:hover,
+    button.add-new:hover,
+    #detailModal .add-new:hover,
+    #simTopUpModal .add-new:hover {
+        background: var(--color-success);
+        color: var(--color-white);
+    }
+
+    /* Warning Button (Details) */
+    .btn-warning,
+    button.details {
+        border-color: var(--color-warning);
+        color: var(--color-warning);
+    }
+
+    .btn-warning:hover,
+    button.details:hover {
+        background: var(--color-warning);
+        color: var(--color-white);
+    }
+
+    /* Danger Button (Delete, Logout) */
+    .btn-danger,
+    button.delete,
+    #logout-btn {
+        border-color: var(--color-danger);
+        color: var(--color-danger);
+    }
+
+    .btn-danger:hover,
+    button.delete:hover,
+    #logout-btn:hover {
+        background: var(--color-danger);
+        color: var(--color-white);
+    }
+
+    /* Info/Refresh Button - Dark Gray Theme */
+    button.refresh,
+    button.top-up {
+        border-color: var(--color-primary);
+        color: var(--color-primary);
+    }
+
+    button.refresh:hover,
+    button.top-up:hover {
+        background: var(--color-primary);
+        color: var(--color-white);
+    }
+
+    /* Disabled Button - White with light border */
+    button:disabled,
+    .btn:disabled {
+        background: var(--color-white) !important;
+        color: var(--color-text-muted) !important;
+        border: 2px solid var(--color-light-gray) !important;
+        cursor: not-allowed !important;
+        opacity: 0.6;
+        transform: none !important;
+        box-shadow: none !important;
+    }
+
+    /* Button Sizes */
+    .btn-sm {
+        padding: var(--spacing-xs) var(--spacing-sm);
+        font-size: var(--font-size-xs);
+    }
+
+    .btn-lg {
+        padding: var(--spacing-md) var(--spacing-xl);
+        font-size: var(--font-size-lg);
+    }
+
+    /* ============================================
+   CONTAINER & MAIN CONTENT
+   ============================================ */
+    .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: var(--spacing-xl);
+    }
+
+    main {
+        min-height: calc(100vh - 80px);
+    }
+
+    /* ============================================
+   CARDS
+   ============================================ */
+    .card {
+        background: var(--color-white);
+        border-radius: var(--radius-md);
+        padding: var(--spacing-lg);
+        box-shadow: var(--shadow-sm);
+        transition: box-shadow var(--transition-base);
+    }
+
+    .card:hover {
+        box-shadow: var(--shadow-md);
+    }
+
+    .card-header {
+        padding-bottom: var(--spacing-md);
+        border-bottom: 1px solid var(--color-light-gray);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .card-title {
+        font-size: var(--font-size-xl);
+        font-weight: 600;
+        color: var(--color-primary);
+        margin: 0;
+    }
+
+    .card-body {
+        padding: var(--spacing-md) 0;
+    }
+
+    /* ============================================
+   DASHBOARD CARDS - COMPACT & HORIZONTAL
+   ============================================ */
+    .dashboard-container,
+    .dashboard-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--spacing-md);
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .dashboard-card {
+        background: var(--color-white);
+        border-radius: var(--radius-md);
+        padding: var(--spacing-md) var(--spacing-lg);
+        text-align: center;
+        cursor: pointer;
+        transition: all var(--transition-base);
+        border: 2px solid var(--color-light-gray);
+        box-shadow: var(--shadow-sm);
+        flex: 1 1 auto;
+        min-width: 130px;
+    }
+
+    .dashboard-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--color-primary);
+    }
+
+    .dashboard-card.active {
+        background: var(--color-primary);
+        color: var(--color-white);
+        border-color: var(--color-primary);
+    }
+
+    .dashboard-card h3 {
+        font-size: var(--font-size-xs);
+        font-weight: 500;
+        color: var(--color-text-muted);
+        margin-bottom: var(--spacing-xs);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .dashboard-card.active h3 {
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    .dashboard-card p {
+        font-size: var(--font-size-2xl);
+        font-weight: 700;
+        color: var(--color-primary);
+        margin: 0;
+    }
+
+    .dashboard-card.active p {
+        color: var(--color-white);
+    }
+
+    /* ============================================
+   ALERT SUMMARY BOX - COMPACT SIZE
+   ============================================ */
+    .alert-summary-box {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        padding: var(--spacing-sm) var(--spacing-md);
+        border-radius: var(--radius-md);
+        transition: all var(--transition-base);
+    }
+
+    .alert-summary-box.warning {
+        background: var(--color-warning);
+        color: var(--color-white);
+        cursor: pointer;
+        box-shadow: var(--shadow-md);
+    }
+
+    .alert-summary-box.warning:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .alert-summary-box.success {
+        background: var(--color-success);
+        color: var(--color-white);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .alert-summary-icon svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .alert-summary-text p {
+        font-size: var(--font-size-sm);
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .alert-summary-text span {
+        font-size: var(--font-size-xs);
+        opacity: 0.9;
+    }
+
+    /* ============================================
+   SEARCH & FILTERS (ไม่มีคำว่า "ค้นหา")
+   ============================================ */
+    .search-container,
+    .controls {
+        background: var(--color-white);
+        border-radius: var(--radius-md);
+        padding: var(--spacing-lg);
+        margin-bottom: var(--spacing-lg);
+        box-shadow: var(--shadow-sm);
+        display: flex;
+        gap: var(--spacing-lg);
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+
+    .search-box {
+        flex: 1;
+        min-width: 200px;
+    }
+
+    .search-box label {
+        display: none;
+    }
+
+    .search-input,
+    input[type="search"] {
+        width: 100%;
+        padding: var(--spacing-md) var(--spacing-lg);
+        border: 1px solid var(--color-medium-gray);
+        border-radius: var(--radius-pill);
+        font-family: var(--font-family);
+        font-size: var(--font-size-base);
+        transition: all var(--transition-base);
+        outline: none;
+    }
+
+    .search-input:focus,
+    input[type="search"]:focus {
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
+    }
+
+    /* ============================================
+   TABLE - WITH HORIZONTAL SCROLL
+   ============================================ */
+    .table-container {
+        background: var(--color-white);
+        border-radius: var(--radius-md);
+        overflow-x: auto;
+        box-shadow: var(--shadow-sm);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 1000px;
+    }
+
+    thead {
+        background: var(--color-off-white);
+        border-bottom: 2px solid var(--color-light-gray);
+    }
+
+    th {
+        padding: var(--spacing-md) var(--spacing-lg);
+        text-align: left;
+        font-size: var(--font-size-sm);
+        font-weight: 600;
+        color: var(--color-primary);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+    }
+
+    th.sortable {
+        cursor: pointer;
+        user-select: none;
+        transition: background var(--transition-fast);
+    }
+
+    th.sortable:hover {
+        background: var(--color-light-gray);
+    }
+
+    th.sortable::after {
+        content: ' ⇅';
+        opacity: 0.3;
+    }
+
+    th.sort-asc::after {
+        content: ' ↑';
+        opacity: 1;
+    }
+
+    th.sort-desc::after {
+        content: ' ↓';
+        opacity: 1;
+    }
+
+    /* วันคงเหลือ - ข้อมูลตรงกลาง */
+    th[data-column="วันคงเหลือ"],
+    td.days-remaining-cell {
+        text-align: center;
+    }
+
+    td {
+        padding: var(--spacing-md) var(--spacing-lg);
+        border-bottom: 1px solid var(--color-light-gray);
+        font-size: var(--font-size-sm);
+        white-space: nowrap;
+    }
+
+    tbody tr {
+        transition: background var(--transition-fast);
+    }
+
+    tbody tr:hover {
+        background: var(--color-off-white);
+    }
+
+    tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    /* Facebook Name - Clickable (ตัวใหญ่ขึ้น) */
+    td.facebook-name-cell {
+        color: var(--color-primary);
+        cursor: pointer;
+        font-weight: 600;
+        font-size: var(--font-size-base);
+        transition: all var(--transition-fast);
+    }
+
+    td.facebook-name-cell:hover {
+        color: var(--color-info);
+        text-decoration: underline;
+        transform: scale(1.02);
+    }
+
+    /* Actions Cell */
+    .actions-cell {
+        display: flex;
+        gap: var(--spacing-xs);
+        flex-wrap: nowrap;
+    }
+
+    .actions-cell button {
+        padding: var(--spacing-xs) var(--spacing-md);
+        font-size: var(--font-size-xs);
+    }
+
+    /* Profile Picture Cell - ตรงกลาง */
+    .profile-pic-cell {
+        padding: var(--spacing-sm) !important;
+        text-align: center;
+    }
+
+    .profile-pic {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--color-light-gray);
+        display: inline-block;
+    }
+
+    /* ============================================
+   PAGINATION
+   ============================================ */
+    .pagination-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: var(--spacing-md);
+        padding: var(--spacing-lg);
+        background: var(--color-white);
+        border-radius: var(--radius-md);
+        margin-top: var(--spacing-lg);
+        box-shadow: var(--shadow-sm);
+    }
+
+    #pageInfo {
+        padding: var(--spacing-sm) var(--spacing-lg);
+        background: var(--color-off-white);
+        border-radius: var(--radius-pill);
+        font-weight: 500;
+        color: var(--color-primary);
+        font-size: var(--font-size-sm);
+    }
+
+    /* ============================================
+   MODALS
+   ============================================ */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+        z-index: 2000;
+        align-items: center;
+        justify-content: center;
+        padding: var(--spacing-lg);
+        overflow-y: auto;
+    }
+
+    .modal-content {
+        background: var(--color-white);
+        border-radius: var(--radius-lg);
+        max-width: 800px;
+        width: 100%;
+        max-height: 90vh;
+        display: flex;
+        flex-direction: column;
+        box-shadow: var(--shadow-xl);
+        animation: modalSlideIn 0.3s ease;
+        position: relative;
+    }
+
+    @keyframes modalSlideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .modal-header {
+        padding: var(--spacing-lg) var(--spacing-xl);
+        border-bottom: 1px solid var(--color-light-gray);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--color-primary);
+        color: var(--color-white);
+        border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+
+    .modal-header h2 {
+        margin: 0;
+        font-size: var(--font-size-xl);
+        font-weight: 600;
+    }
+
+    .close-button {
+        background: none;
+        border: none;
+        font-size: 2rem;
+        color: var(--color-white);
+        cursor: pointer;
+        padding: 0;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: all var(--transition-fast);
+    }
+
+    .close-button:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: rotate(90deg);
+    }
+
+    .modal-body-scrollable {
+        padding: var(--spacing-xl);
+        overflow-y: auto;
+        flex: 1;
+    }
+
+    .modal-footer {
+        padding: var(--spacing-lg) var(--spacing-xl);
+        border-top: 1px solid var(--color-light-gray);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--spacing-md);
+        flex-wrap: wrap;
+    }
+
+    .modal-footer .left-actions {
+        display: flex;
+        gap: var(--spacing-sm);
+        flex-wrap: wrap;
+    }
+
+    .modal-footer .right-actions {
+        display: flex;
+        gap: var(--spacing-sm);
+        flex-wrap: wrap;
+    }
+
+    /* Modal Profile - มุมขวาบน (ขยับซ้ายอีกนิด) */
+    .modal-profile-container {
+        position: absolute;
+        top: var(--spacing-md);
+        right: 80px;
+        z-index: 10;
+        display: none;
+    }
+
+    .modal-profile-image {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid white;
+        box-shadow: var(--shadow-lg);
+    }
+
+    /* ============================================
+   LOGOUT CONFIRMATION MODAL - IMPROVED DESIGN
+   ============================================ */
+    #logout-confirm-modal .modal-content {
+        max-width: 450px;
+        text-align: center;
+    }
+
+    #logout-confirm-modal .modal-header {
+        background: var(--color-primary);
+        justify-content: center;
+        padding: var(--spacing-xl) var(--spacing-2xl);
+    }
+
+    #logout-confirm-modal .modal-header h2 {
+        font-size: var(--font-size-2xl);
+        font-weight: 600;
+    }
+
+    #logout-confirm-modal .modal-body-scrollable {
+        padding: var(--spacing-2xl) var(--spacing-2xl);
+    }
+
+    #logout-confirm-modal .modal-body-scrollable p {
+        font-size: var(--font-size-lg);
+        color: var(--color-text);
+        margin: 0;
+        line-height: 1.8;
+    }
+
+    #logout-confirm-modal .modal-footer {
+        justify-content: center;
+        border-top: none;
+        padding: var(--spacing-xl) var(--spacing-2xl) var(--spacing-2xl);
+    }
+
+    #logout-confirm-modal .modal-footer .right-actions {
+        gap: var(--spacing-lg);
+        justify-content: center;
+    }
+
+    #logout-confirm-modal button {
+        min-width: 110px;
+        padding: var(--spacing-sm) var(--spacing-2xl);
+        font-size: var(--font-size-sm);
+        font-weight: 600;
+    }
+
+    /* Inactivity Modal - Similar Style */
+    #inactivityModal .modal-content {
+        max-width: 450px;
+        text-align: center;
+    }
+
+    #inactivityModal .modal-header {
+        background: var(--color-warning);
+        justify-content: center;
+    }
+
+    #inactivityModal .modal-body-scrollable {
+        padding: var(--spacing-2xl) var(--spacing-xl) var(--spacing-xl);
+    }
+
+    #inactivityModal .modal-body-scrollable p {
+        font-size: var(--font-size-base);
+        color: var(--color-text);
+        margin: 0;
+        line-height: 1.8;
+    }
+
+    #inactivityModal .modal-footer {
+        justify-content: center;
+        border-top: none;
+        padding: var(--spacing-md) var(--spacing-xl) var(--spacing-2xl);
+    }
+
+    /* ============================================
+   SIM TOP-UP MODAL - BEAUTIFUL DESIGN (ข้อมูลห่างจากขอบ)
+   ============================================ */
+    #simTopUpModal .modal-content {
+        max-width: 550px;
+    }
+
+    #simTopUpModal .modal-header {
+        background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+    }
+
+    #simTopUpModal .modal-body-scrollable {
+        padding: var(--spacing-xl) var(--spacing-2xl);
+    }
+
+    #simTopUpModal .modal-info-box {
+        background: var(--color-white);
+        border: 2px solid var(--color-light-gray);
+        border-radius: var(--radius-md);
+        padding: var(--spacing-lg) var(--spacing-xl);
+        margin-bottom: var(--spacing-xl);
+        box-shadow: var(--shadow-sm);
+    }
+
+    #simTopUpModal .info-row {
+        display: flex;
+        justify-content: space-between;
+        padding: var(--spacing-md) 0;
+        border-bottom: 1px solid var(--color-light-gray);
+    }
+
+    #simTopUpModal .info-row:last-child {
+        border-bottom: none;
+    }
+
+    #simTopUpModal .info-label {
+        font-weight: 600;
+        color: var(--color-text-muted);
+        font-size: var(--font-size-sm);
+    }
+
+    #simTopUpModal .info-value {
+        font-weight: 600;
+        color: var(--color-primary);
+        font-size: var(--font-size-base);
+    }
+
+    #simTopUpModal .form-grid {
+        padding: 0 var(--spacing-md);
+    }
+
+    /* Number Input with Spinner */
+    #simTopUpModal input[type="number"] {
+        font-size: var(--font-size-lg);
+        font-weight: 600;
+        text-align: center;
+        padding: var(--spacing-md);
+    }
+
+    #simTopUpModal input[type="number"]::-webkit-inner-spin-button,
+    #simTopUpModal input[type="number"]::-webkit-outer-spin-button {
+        opacity: 1;
+        height: 40px;
+    }
+
+    /* ============================================
+   TABS
+   ============================================ */
+    .modal-tabs {
+        display: flex;
+        border-bottom: 1px solid var(--color-light-gray);
+        margin-bottom: var(--spacing-lg);
+        gap: var(--spacing-sm);
+    }
+
+    .tab-link {
+        padding: var(--spacing-md) var(--spacing-lg);
+        background: none;
+        border: none;
+        border-bottom: 3px solid transparent;
+        color: var(--color-text-muted);
+        font-weight: 500;
+        cursor: pointer;
+        transition: all var(--transition-base);
+        border-radius: 0;
+    }
+
+    .tab-link:hover {
+        color: var(--color-primary);
+        background: var(--color-off-white);
+    }
+
+    .tab-link.active {
+        color: var(--color-primary);
+        border-bottom-color: var(--color-primary);
+        font-weight: 600;
+    }
+
+    .tab-content {
+        display: none;
+    }
+
+    .tab-content.active {
+        display: block;
+    }
+
+    /* ============================================
+   FORMS
+   ============================================ */
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: var(--spacing-lg);
+    }
+
+    .form-divider {
+        grid-column: 1 / -1;
+        height: 1px;
+        background-color: var(--color-medium-gray);
+        margin: var(--spacing-sm) 0;
+    }
+
+    .form-field-group {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-xs);
+        position: relative;
+    }
+
+    .form-field-group label {
+        font-size: var(--font-size-sm);
+        font-weight: 500;
+        color: var(--color-primary);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .form-field-group input,
+    .form-field-group select,
+    .form-field-group textarea {
+        padding: var(--spacing-sm) var(--spacing-md);
+        border: 1px solid var(--color-medium-gray);
+        border-radius: var(--radius-sm);
+        font-family: var(--font-family);
+        font-size: var(--font-size-sm);
+        transition: all var(--transition-base);
+        outline: none;
+    }
+
+    .form-field-group input:focus,
+    .form-field-group select:focus,
+    .form-field-group textarea:focus {
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
+    }
+
+    .form-field-group input.is-dirty {
+        border-color: var(--color-warning);
+        background: rgba(243, 156, 18, 0.05);
+    }
+
+    .form-field-group input[readonly] {
+        background-color: var(--color-light-gray);
+        cursor: not-allowed;
+    }
+
+    .form-field-group textarea {
+        resize: vertical;
+        min-height: 80px;
+    }
+
+    /* Copy and Link Icons - Minimal (เฉพาะสัญลักษณ์) */
+    .copy-icon,
+    .link-icon {
+        cursor: pointer;
+        color: var(--color-text-muted);
+        background: none;
+        border: none;
+        padding: var(--spacing-xs);
+        font-size: var(--font-size-base);
+        transition: all var(--transition-fast);
+        text-decoration: none;
+        border-radius: var(--radius-sm);
+        opacity: 0.6;
+    }
+
+    .copy-icon:hover,
+    .link-icon:hover {
+        color: var(--color-primary);
+        background: var(--color-off-white);
+        opacity: 1;
+    }
+
+    /* Modal Info Box */
+    .modal-info-box {
+        margin-bottom: var(--spacing-lg);
+        padding: var(--spacing-md);
+        background: var(--color-off-white);
+        border: 1px solid var(--color-light-gray);
+        border-left: 4px solid var(--color-primary);
+        border-radius: var(--radius-sm);
+    }
+
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--spacing-sm) 0;
+        border-bottom: 1px solid var(--color-light-gray);
+    }
+
+    .info-row:last-child {
+        border-bottom: none;
+    }
+
+    .info-label {
+        color: var(--color-text-muted);
+        font-weight: 600;
+        font-size: var(--font-size-sm);
+    }
+
+    .info-value {
+        font-weight: 500;
+        color: var(--color-text);
+        text-align: right;
+        font-size: var(--font-size-sm);
+    }
+
+    /* ============================================
+   LOADER
+   ============================================ */
+    .loader-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+    }
+
+    .loader {
+        width: 50px;
+        height: 50px;
+        border: 4px solid var(--color-light-gray);
+        border-top-color: var(--color-primary);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* ============================================
+   TOAST NOTIFICATIONS - BOTTOM CENTER
+   ============================================ */
+    .toast {
+        position: fixed;
+        bottom: var(--spacing-2xl);
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: var(--color-primary);
+        color: var(--color-white);
+        padding: var(--spacing-md) var(--spacing-2xl);
+        border-radius: var(--radius-pill);
+        box-shadow: var(--shadow-xl);
+        z-index: 10000;
+        opacity: 0;
+        transition: all var(--transition-base);
+        font-size: var(--font-size-base);
+        font-weight: 500;
+        text-align: center;
+        min-width: 300px;
+        max-width: 500px;
+    }
+
+    .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    /* ============================================
+   LOGIN VIEW - WITH BOX (แก้ไขให้คลิกได้)
+   ============================================ */
+    #login-view {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: linear-gradient(135deg, var(--color-off-white) 0%, var(--color-light-gray) 100%);
+        padding: var(--spacing-xl);
+    }
+
+    .login-container {
+        background: var(--color-white);
+        padding: var(--spacing-2xl);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-xl);
+        max-width: 400px;
+        width: 100%;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        pointer-events: auto;
+    }
+
+    .login-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--color-primary);
+        pointer-events: none;
+    }
+
+    .login-container h1 {
+        color: var(--color-primary);
+        margin-bottom: var(--spacing-xl);
+        font-size: var(--font-size-2xl);
+        font-weight: 600;
+        pointer-events: none;
+    }
+
+    .login-container form {
+        pointer-events: auto;
+    }
+
+    .login-container input {
+        width: 100%;
+        padding: var(--spacing-md);
+        border: 2px solid var(--color-medium-gray);
+        border-radius: var(--radius-sm);
+        font-family: var(--font-family);
+        font-size: var(--font-size-base);
+        margin-bottom: var(--spacing-md);
+        outline: none;
+        transition: all var(--transition-base);
+        pointer-events: auto;
+        cursor: text;
+    }
+
+    .login-container input:focus {
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
+    }
+
+    .login-container button {
+        width: 100%;
+        background: var(--color-primary);
+        color: var(--color-white);
+        border: 2px solid var(--color-primary);
+        padding: var(--spacing-md);
+        font-size: var(--font-size-base);
+        pointer-events: auto;
+    }
+
+    .login-container button:hover {
+        background: var(--color-primary-dark);
+        border-color: var(--color-primary-dark);
+    }
+
+    .login-container #error-msg {
+        color: var(--color-danger);
+        margin-top: var(--spacing-md);
+        padding: var(--spacing-md);
+        background: rgba(231, 76, 60, 0.1);
+        border-radius: var(--radius-sm);
+        border-left: 4px solid var(--color-danger);
+        font-size: var(--font-size-sm);
+        pointer-events: none;
+    }
+
+    /* ============================================
+   ALERT LIST MODAL
+   ============================================ */
+    .alert-list-modal {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .alert-list-modal li {
+        padding: var(--spacing-md);
+        border-bottom: 1px solid var(--color-light-gray);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        transition: all var(--transition-fast);
+    }
+
+    .alert-list-modal li:hover {
+        background: var(--color-off-white);
+        transform: translateX(4px);
+    }
+
+    .alert-list-modal li:last-child {
+        border-bottom: none;
+    }
+
+    .alert-list-modal .account-info {
+        font-weight: 600;
+        color: var(--color-text);
+    }
+
+    .alert-list-modal .days-remaining {
+        font-weight: 600;
+        color: var(--color-text-muted);
+    }
+
+    .alert-list-modal .days-remaining.expired {
+        color: var(--color-danger);
+    }
+
+    /* ============================================
+   UTILITY CLASSES
+   ============================================ */
+    .hidden {
+        display: none !important;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .text-muted {
+        color: var(--color-text-muted);
+    }
+
+    .mt-0 {
+        margin-top: 0;
+    }
+
+    .mt-1 {
+        margin-top: var(--spacing-xs);
+    }
+
+    .mt-2 {
+        margin-top: var(--spacing-sm);
+    }
+
+    .mt-3 {
+        margin-top: var(--spacing-md);
+    }
+
+    .mt-4 {
+        margin-top: var(--spacing-lg);
+    }
+
+    .mb-0 {
+        margin-bottom: 0;
+    }
+
+    .mb-1 {
+        margin-bottom: var(--spacing-xs);
+    }
+
+    .mb-2 {
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .mb-3 {
+        margin-bottom: var(--spacing-md);
+    }
+
+    .mb-4 {
+        margin-bottom: var(--spacing-lg);
+    }
+
+    /* ============================================
+   MOBILE RESPONSIVE
+   ============================================ */
+
+    /* Tablets and below */
+    @media (max-width: 768px) {
+        :root {
+            --font-size-base: 0.9375rem;
+            --spacing-xl: 1.5rem;
+        }
+
+        header {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .header-actions {
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Dashboard cards wrap and shrink */
+        .dashboard-container,
+        .dashboard-grid {
+            gap: var(--spacing-sm);
+        }
+
+        .dashboard-card {
+            min-width: 110px;
+            padding: var(--spacing-sm) var(--spacing-md);
+        }
+
+        .dashboard-card p {
+            font-size: var(--font-size-xl);
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .modal-content {
+            max-width: 95%;
+            max-height: 95vh;
+        }
+
+        .modal-footer {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .modal-footer .left-actions,
+        .modal-footer .right-actions {
+            width: 100%;
+            flex-direction: column;
+        }
+
+        .modal-footer button {
+            width: 100%;
+        }
+
+        table {
+            font-size: var(--font-size-xs);
+        }
+
+        th,
+        td {
+            padding: var(--spacing-sm);
+        }
+
+        .actions-cell {
+            flex-direction: column;
+        }
+
+        .actions-cell button {
+            width: 100%;
+        }
+
+        .pagination-container {
+            flex-wrap: wrap;
+        }
+
+        .toast {
+            min-width: 250px;
+            max-width: 90%;
+            bottom: var(--spacing-lg);
+        }
+
+        /* Profile image smaller on mobile */
+        .modal-profile-container {
+            right: 50px;
+        }
+
+        .modal-profile-image {
+            width: 60px;
+            height: 60px;
+        }
+    }
+
+    /* Mobile phones */
+    @media (max-width: 480px) {
+        :root {
+            --font-size-base: 0.875rem;
+            --spacing-xl: 1rem;
+        }
+
+        .container {
+            padding: var(--spacing-md);
+        }
+
+        header {
+            padding: var(--spacing-md);
+        }
+
+        header h1 {
+            font-size: var(--font-size-xl);
+        }
+
+        /* Dashboard cards stack vertically on very small screens */
+        .dashboard-card {
+            flex: 1 1 100%;
+            min-width: 100%;
+        }
+
+        .modal-body-scrollable {
+            padding: var(--spacing-md);
+        }
+
+        .modal-header,
+        .modal-footer {
+            padding: var(--spacing-md);
+        }
+
+        button,
+        .btn {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            font-size: var(--font-size-xs);
+        }
+    }
+
+    /* Landscape phones */
+    @media (max-width: 768px) and (orientation: landscape) {
+        .modal-content {
+            max-height: 85vh;
+        }
+    }
+
+    /* ============================================
+   PRINT STYLES
+   ============================================ */
+    @media print {
+
+        header,
+        .header-actions,
+        .pagination-container,
+        .actions-cell,
+        .modal,
+        .loader,
+        .toast {
+            display: none !important;
+        }
+
+        body {
+            background: white;
+        }
+
+        .table-container {
+            box-shadow: none;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+    <div id="loader" class="loader-container hidden">
+        <div class="loader"></div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <!-- LOGIN VIEW -->
+    <div id="login-view" class="hidden">
+        <div class="login-container">
+            <h1 style="margin-bottom: 2rem;">เข้าสู่ระบบ</h1>
+            <form id="login-form">
+                <div class="form-field-group">
+                    <input type="text" id="username" placeholder="ชื่อผู้ใช้ (Username)" required>
+                </div>
+                <div class="form-field-group">
+                    <input type="password" id="passcode" placeholder="รหัสผ่าน (Passcode)" required>
+                </div>
+                <button type="submit" id="login-btn" style="width: 100%; margin-top: 1rem;">เข้าสู่ระบบ</button>
+            </form>
+            <p id="error-msg" class="hidden">รหัสผ่านไม่ถูกต้อง</p>
+        </div>
+    </div>
+
+    <!-- MAIN APP VIEW -->
+    <div id="app-view" class="hidden">
+        <header>
+            <div class="header-left">
+                <h1>Facebook Account Manager</h1>
+                <span id="currentUserDisplay" style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-left: 1rem;"></span>
+            </div>
+            <div class="header-actions">
+                <button class="refresh" onclick="loadData(true)">รีเฟรชข้อมูล</button>
+                <button class="add-new" id="addNewBtn" onclick="openDetailModal()">+ เพิ่มบัญชีใหม่</button>
+                <button class="refresh" onclick="exportData()" title="ส่งออกข้อมูลเป็น CSV">📥 ส่งออกข้อมูล</button>
+                <button class="refresh" id="backupBtn" onclick="handleManualBackup()" title="สำรองข้อมูลทันที">💾 สำรองข้อมูล</button>
+                <button id="logout-btn">ออกจากระบบ</button>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="dashboard-container" id="dashboardContainer">
+                <!-- Dashboard cards will be generated by JS -->
+            </div>
+
+            <div class="controls">
+                <div class="search-box">
+                    <label for="searchInput">ค้นหา</label>
+                    <input type="search" id="searchInput" placeholder="ค้นหา FB No., ชื่อ, อีเมล...">
+                </div>
+                <div id="expiringSimsSummaryBox" class="hidden">
+                    <!-- Alert summary box will be generated by JS -->
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table id="accountsTable">
+                    <thead>
+                        <tr></tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div class="pagination-container" id="paginationContainer" style="display: none;">
+                <button id="prevPageBtn">ก่อนหน้า</button>
+                <span id="pageInfo"></span>
+                <button id="nextPageBtn">ถัดไป</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- The Modal for Details/Edit/Add -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">รายละเอียดบัญชี</h2>
+                <span class="close-button" onclick="closeDetailModal()">&times;</span>
+            </div>
+            <div class="modal-body-scrollable">
+                <div class="modal-tabs">
+                    <button class="tab-link active" onclick="openTab(event, 'mainInfoTab')">ข้อมูลหลัก</button>
+                    <button class="tab-link" onclick="openTab(event, 'businessInfoTab')">บัญชีธุรกิจ</button>
+                </div>
+                <form id="accountForm">
+                    <input type="hidden" id="ID" name="ID">
+                    <!-- Main Info Tab Content -->
+                    <div id="mainInfoTab" class="tab-content active">
+                        <div id="modalProfileContainer" class="modal-profile-container" style="display: none;">
+                            <img id="modalProfileImage" class="modal-profile-image" src="" alt="Profile Picture">
+                        </div>
+                        <div class="form-grid" id="formGrid" style="flex-grow: 1;">
+                            <!-- Main form fields will be generated by JS -->
+                        </div>
+                    </div>
+                    <!-- Business Info Tab Content -->
+                    <div id="businessInfoTab" class="tab-content">
+                        <div class="form-grid" id="businessFormGrid" style="width: 100%;">
+                            <!-- Business form fields will be generated by JS -->
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="left-actions">
+                    <button id="deleteButton" class="delete" onclick="deleteCurrentAccount()"
+                        style="display: none;">ลบบัญชีนี้</button>
+                    <button id="topUpButton" class="top-up" onclick="openTopUpFromDetail()" style="display: none;">💰
+                        เติมเงินซิม</button>
+                </div>
+                <div class="right-actions">
+                    <button onclick="closeDetailModal()">ยกเลิก</button>
+                    <button class="add-new" onclick="handleFormSubmit()">บันทึกข้อมูล</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SIM Top-up Modal -->
+    <div id="simTopUpModal" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2 id="simTopUpModalTitle">บันทึกการเติมเงินซิม</h2>
+                <span class="close-button" onclick="closeSimTopUpModal()">&times;</span>
+            </div>
+            <div id="simTopUpAccountInfo" class="modal-info-box">
+                <!-- Account info will be populated by JS -->
+            </div>
+            <form id="simTopUpForm">
+                <input type="hidden" id="simTopUpId" name="ID">
+                <div class="form-grid" style="grid-template-columns: 1fr;">
+                    <div class="form-field-group">
+                        <label for="simBalance">ยอดเงินในซิม (บาท)</label>
+                        <input type="number" id="simBalance" name="ยอดเงินในซิม" step="1" min="0" required>
+                    </div>
+                    <div class="form-field-group">
+                        <label for="simExpiryDate">วันหมดอายุใหม่ของซิม</label>
+                        <input type="date" id="simExpiryDate" name="วันที่ซิมหมดอายุ" required>
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer" style="justify-content: flex-end;">
+                <div class="right-actions">
+                    <button onclick="closeSimTopUpModal()">ยกเลิก</button>
+                    <button class="add-new" onclick="handleSimTopUpSubmit()">บันทึก</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Expiring SIMs Alert Modal -->
+    <div id="expiringSimsModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h2>ซิมใกล้หมดอายุ</h2>
+                <span class="close-button" onclick="closeExpiringSimsModal()">&times;</span>
+            </div>
+            <div class="modal-body-scrollable">
+                <ul id="expiringSimsList" class="alert-list-modal">
+                    <!-- List items will be generated by JS -->
+                </ul>
+            </div>
+            <div class="modal-footer" style="justify-content: flex-end;">
+                <div class="right-actions">
+                    <button onclick="closeExpiringSimsModal()">ปิด</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inactivity Timeout Modal -->
+    <div id="inactivityModal" class="modal">
+        <div class="modal-content" style="max-width: 450px;">
+            <div class="modal-header">
+                <h2>หมดเวลาการใช้งาน</h2>
+            </div>
+            <p>คุณไม่ได้ใช้งานเป็นเวลานาน ระบบได้ทำการออกจากระบบอัตโนมัติเพื่อความปลอดภัย</p>
+            <div class="modal-footer" style="justify-content: flex-end;">
+                <div class="right-actions">
+                    <button id="inactivityOkBtn" class="add-new">ตกลง</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logout Confirmation Modal -->
+    <div id="logout-confirm-modal" class="modal">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <h2 id="logoutModalTitle">ยืนยันการออกจากระบบ</h2>
+            </div>
+            <div class="modal-body-scrollable">
+                <p>คุณต้องการออกจากระบบใช่หรือไม่?</p>
+            </div>
+            <div class="modal-footer" style="justify-content: flex-end;">
+                <div class="right-actions">
+                    <button id="cancel-logout-btn">ยกเลิก</button>
+                    <button id="confirm-logout-btn" class="delete">ออกจากระบบ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Confirmation Modal (for delete and other confirmations) -->
+    <div id="confirm-modal" class="modal">
+        <div class="modal-content" style="max-width: 450px;">
+            <div class="modal-header">
+                <h2 id="confirmModalTitle">ยืนยันการดำเนินการ</h2>
+                <span class="close-button" onclick="closeConfirmModal()">&times;</span>
+            </div>
+            <p id="confirmModalMessage"></p>
+            <div class="modal-footer" style="justify-content: flex-end;">
+                <div class="right-actions">
+                    <button id="confirmModalCancelBtn">ยกเลิก</button>
+                    <button id="confirmModalConfirmBtn" class="delete">ยืนยัน</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- HEADLESS APPS SCRIPT ADAPTER ---
+        // เมื่อย้ายไป GitHub Pages จะต้องใช้ URL ของ Web App ที่ Publish ไว้
+        const API_URL = 'https://script.google.com/macros/s/AKfycbwiFc3ldYgMpR15EGZFZUme3B5GKCg5kI_CTNhvstM3V5yqRJVaqJrl5_aVgo0Sl5ff/exec';
+        
+        // จำลอง object google.script.run เพื่อให้โค้ดเก่าทำงานได้โดยไม่ต้องแก้ใหม่ทั้งหมด
+        if (typeof google === 'undefined') {
+            window.google = {
+                script: {
+                    get run() {
+                        return createRunner();
+                    }
+                }
+            };
+        }
+
+        function createRunner() {
+            let successCb = null;
+            let errorCb = null;
+
+            const runner = {
+                withSuccessHandler: function(cb) {
+                    successCb = cb;
+                    return this;
+                },
+                withFailureHandler: function(cb) {
+                    errorCb = cb;
+                    return this;
+                }
+            };
+
+            const apiMethods = [
+                'authenticate', 'logout', 'getSession', 'getAccounts', 
+                'saveAccount', 'deleteAccountById', 'manualBackup', 
+                'exportAccountsToCSV', 'logAnalyticsEvent', 'convertGoogleDriveLink'
+            ];
+
+            apiMethods.forEach(method => {
+                runner[method] = function(...args) {
+                    const payload = {
+                        action: method,
+                        params: {}
+                    };
+                    
+                    if (method === 'authenticate') {
+                        payload.params = { username: args[0], passcode: args[1], clientFingerprint: args[2] };
+                    } else if (['logout', 'getSession', 'getAccounts', 'manualBackup', 'exportAccountsToCSV'].includes(method)) {
+                        payload.params = { token: args[0] };
+                    } else if (method === 'saveAccount') {
+                        payload.params = { accountData: args[0], token: args[1] };
+                    } else if (method === 'deleteAccountById') {
+                        payload.params = { id: args[0], token: args[1] };
+                    } else if (method === 'logAnalyticsEvent') {
+                        payload.params = { eventName: args[0], eventData: args[1], token: args[2] };
+                    } else if (method === 'convertGoogleDriveLink') {
+                        payload.params = { url: args[0] };
+                    }
+
+                    fetch(API_URL, {
+                        method: 'POST',
+                        body: JSON.stringify(payload),
+                        headers: {
+                            'Content-Type': 'text/plain;charset=utf-8'
+                        }
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success !== false || data.success === undefined) {
+                            if (successCb) {
+                                if (data.success !== undefined && data.data !== undefined) {
+                                    successCb(data.data);
+                                } else {
+                                    successCb(data);
+                                }
+                            }
+                        } else {
+                            if (errorCb) errorCb(new Error(data.error || 'API Error'));
+                        }
+                    })
+                    .catch(err => {
+                        console.error("API Fetch Error:", err);
+                        if (errorCb) errorCb(err);
+                    });
+                };
+            });
+
+            return runner;
+        }
+        // --- GLOBAL STATE & CONFIG ---
+        const loader = document.getElementById('loader');
+        const tableBody = document.querySelector("#accountsTable tbody");
+        const tableHead = document.querySelector("#accountsTable thead tr");
+        const searchInput = document.getElementById('searchInput');
+        const modal = document.getElementById('detailModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalProfileContainer = document.getElementById('modalProfileContainer');
+        const modalProfileImage = document.getElementById('modalProfileImage');
+        const formGrid = document.getElementById('formGrid');
+        const form = document.getElementById('accountForm');
+        const dashboardContainer = document.getElementById('dashboardContainer');
+        const paginationContainer = document.getElementById('paginationContainer');
+        const prevPageBtn = document.getElementById('prevPageBtn');
+        const nextPageBtn = document.getElementById('nextPageBtn');
+        const pageInfo = document.getElementById('pageInfo');
+        const loginView = document.getElementById('login-view');
+        const appView = document.getElementById('app-view');
+        const expiringSimsSummaryBox = document.getElementById('expiringSimsSummaryBox');
+        const expiringSimsModal = document.getElementById('expiringSimsModal');
+        const expiringSimsList = document.getElementById('expiringSimsList');
+        // Cache additional DOM elements for better performance
+        const inactivityModal = document.getElementById('inactivityModal');
+        const logoutConfirmModal = document.getElementById('logout-confirm-modal');
+        const simTopUpModal = document.getElementById('simTopUpModal');
+        const simTopUpAccountInfo = document.getElementById('simTopUpAccountInfo');
+        const confirmModal = document.getElementById('confirm-modal');
+        const confirmModalTitle = document.getElementById('confirmModalTitle');
+        const confirmModalMessage = document.getElementById('confirmModalMessage');
+        const confirmModalCancelBtn = document.getElementById('confirmModalCancelBtn');
+        const confirmModalConfirmBtn = document.getElementById('confirmModalConfirmBtn');
+
+        let sessionToken = null;
+        let allAccounts = []; // Store all data from sheet
+        let currentEditingAccountData = {}; // Store original data for comparison
+        let currentSort = {
+            // Default sort by FB No.
+            column: 'FB No.',
+            direction: 'asc'
+        };
+        let currentPage = 1;
+        const rowsPerPage = 20;
+        let currentStatusFilter = ''; // New state variable to replace the dropdown
+
+        // --- CLIENT FINGERPRINT FOR RATE LIMITING ---
+        // Generate a stable browser fingerprint to use as client ID for rate limiting.
+        // This replaces the broken getClientIP() on the server side.
+        function getClientFingerprint() {
+            const stored = localStorage.getItem('clientFingerprint');
+            if (stored) return stored;
+            // Generate once and persist in localStorage
+            const fp = 'fp_' + Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 10);
+            localStorage.setItem('clientFingerprint', fp);
+            return fp;
+        }
+
+        // Debounce timer for search
+        let searchDebounceTimer = null;
+        const SEARCH_DEBOUNCE_MS = 300; // Wait 300ms after user stops typing
+
+        // Columns to display on the main dashboard, added 'ออนที่' and 'ซิมอยู่ที่'
+        const dashboardColumns = ['รูปโปรไฟล์', 'FB No.', 'Facebook Name', 'สถานะบัญชี', 'ออนที่', 'ซิมอยู่ที่', 'วันคงเหลือ', 'Actions'];
+
+        // Fields that are calculated automatically and should not be edited by the user.
+        const readOnlyFields = ['Age', 'อายุเฟส', 'อายุเข้าตัวจัดการ', 'อายุสร้างเพจ', 'วันใช้งานคงเหลือ', 'วันที่เติมเงินล่าสุด'];
+
+        // Options for the 'Sex' dropdown in the form
+        const sexOptions = ['ชาย', 'หญิง', 'อื่นๆ'];
+        // Fixed list for Account Status dropdown and dashboard order
+        const accountStatusOptions = [
+            'พร้อมใช้งาน',
+            'รอเข้าตัวจัดการ',
+            'รอสร้างบิส',
+            'ยืนยันตัวตนไม่ผ่าน',
+            'ปิดถาวร'
+        ];
+        // All possible form fields in order
+        const allFormFields = [
+            'FB No.', 'Facebook Name', 'Email', 'Password Email', 'User Facebook', 'Password Facebook',
+            'Telephone No.', 'Sex', 'สถานะบัญชี', '2FA', 'Date of Birth', 'Age', 'วันที่สมัครเฟส', 'อายุเฟส',
+            'วันที่ซิมหมดอายุ', 'วันใช้งานคงเหลือ', 'ยอดเงินในซิม', 'วันที่เติมเงินล่าสุด', 'วันที่เข้าตัวจัดการ', 'อายุเข้าตัวจัดการ', 'วันที่สร้างเพจ',
+            'อายุสร้างเพจ', 'รูปโปรไฟล์', 'บัตรยืนยันเฟส', 'ออนที่', 'ซิมอยู่ที่',
+            'วิธีชำระเงิน (เฟสหลัก)', 'กระเป๋าธุรกิจ', 'เพจหลักของเฟส', 'TIKTOK', 'INSTAGRAM', 'WHAT APP', 'Remark'
+        ];
+        // Fields for the new "Business Account" sheet
+        const businessFormFields = [
+            'เลขผู้เสียภาษี', 'Business 1', 'Account 1-1', 'Payment 1-1', 'Account 1-2', 'Payment 1-2', 'Account 1-3', 'Payment 1-3',
+            'Business 2', 'Account 2-1', 'Payment 2-1', 'Account 2-2', 'Payment 2-2', 'Account 2-3', 'Payment 2-3',
+            'ดูแลบัญชีเฟส 1', 'ดูแลบัญชีเฟส 2', 'ดูแลบัญชีเฟส 3', 'ดูแลบัญชีเฟส 4', 'ดูแลบัญชีเฟส 5',
+            'ดูแลบัญชีเฟส 6', 'ดูแลบัญชีเฟส 7', 'ดูแลบัญชีเฟส 8', 'ดูแลบัญชีเฟส 9', 'ดูแลบัญชีเฟส 10'
+        ];
+
+        // Custom labels for specific fields to add units
+        const fieldLabels = {
+            'Age': 'Age (ปี)',
+            'อายุเฟส': 'อายุเฟส (วัน)',
+            'อายุเข้าตัวจัดการ': 'อายุเข้าตัวจัดการ (วัน)',
+            'อายุสร้างเพจ': 'อายุสร้างเพจ (วัน)',
+            'วันใช้งานคงเหลือ': 'วันใช้งานคงเหลือ (วัน)',
+            'ยอดเงินในซิม': 'ยอดเงินในซิม (บาท)'
+        };
+
+        // Field types for specific inputs
+        const fieldTypes = {
+            'Email': 'email',
+            'Date of Birth': 'date',
+            'Age': 'number',
+            'วันที่สมัครเฟส': 'date',
+            'วันที่ซิมหมดอายุ': 'date',
+            'ยอดเงินในซิม': 'number',
+            'วันที่เติมเงินล่าสุด': 'date',
+            'วันที่เข้าตัวจัดการ': 'date',
+            'วันที่สร้างเพจ': 'date'
+        };
+
+        function createFormFields() {
+            const businessFormGrid = document.getElementById('businessFormGrid');
+
+            allFormFields.forEach(fieldName => {
+                let fieldHtml = '';
+                const labelText = fieldLabels[fieldName] || fieldName;
+
+                if (fieldName === 'Sex') { // FIX: Match the field name 'Sex' from allFormFields
+                    const optionsHtml = sexOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('');
+                    fieldHtml = `<div class="form-field-group"><label for="${fieldName}">${labelText}</label><select id="${fieldName}" name="${fieldName}"><option value="">-- เลือกเพศ --</option>${optionsHtml}</select></div>`;
+                } else if (fieldName === 'สถานะบัญชี') {
+                    fieldHtml = `<div class="form-field-group"><label for="${fieldName}">${labelText}</label><select id="${fieldName}" name="${fieldName}"><option value="">-- กำลังโหลดข้อมูล --</option></select></div>`;
+                } else {
+                    // Existing logic for other fields
+                    const type = fieldTypes[fieldName] || 'text';
+                    const stepAttribute = type === 'number' ? ' step="1"' : '';
+                    const readOnlyAttribute = readOnlyFields.includes(fieldName) ? ' readonly' : '';
+
+                    // สร้าง icons สำหรับ label (ด้านบน)
+                    let labelIcons = '';
+                    if (!readOnlyFields.includes(fieldName)) {
+                        labelIcons = `<span class="copy-icon" onclick="copyToClipboard(document.getElementById('${fieldName}').value, '${fieldName}')" title="Copy">⧉</span>`;
+                        if (fieldName === '2FA') {
+                            labelIcons += `<a class="link-icon" href="https://2fa.live/" target="_blank" title="Open 2FA Link">🔗</a>`;
+                        }
+                    }
+
+                    fieldHtml = `<div class="form-field-group"><label for="${fieldName}">${labelText}${labelIcons}</label><input type="${type}" id="${fieldName}" name="${fieldName}"${stepAttribute}${readOnlyAttribute}></div>`;
+                }
+
+                formGrid.insertAdjacentHTML('beforeend', fieldHtml);
+
+                // Add a divider after the 2FA field to group sections
+                if (fieldName === '2FA' || fieldName === 'วันที่เติมเงินล่าสุด' || fieldName === 'อายุสร้างเพจ') {
+                    const dividerHtml = '<div class="form-divider"></div>';
+                    formGrid.insertAdjacentHTML('beforeend', dividerHtml);
+                }
+            });
+
+            // Generate business fields
+            businessFormFields.forEach(fieldName => {
+                const labelText = fieldLabels[fieldName] || fieldName;
+                const type = fieldTypes[fieldName] || 'text';
+                // All business fields are simple text inputs for now
+                const fieldHtml = `<div class="form-field-group"><label for="${fieldName}">${labelText}</label><input type="${type}" id="${fieldName}" name="${fieldName}"></div>`;
+                businessFormGrid.insertAdjacentHTML('beforeend', fieldHtml);
+
+                // Add dividers to group related business fields
+                if (fieldName === 'เลขผู้เสียภาษี' || fieldName === 'Payment 1-3' || fieldName === 'Payment 2-3') {
+                    const dividerHtml = '<div class="form-divider"></div>';
+                    businessFormGrid.insertAdjacentHTML('beforeend', dividerHtml);
+                }
+            });
+        }
+
+        function convertLinkAndRenderImage(cell, url) {
+            if (!url) {
+                cell.textContent = '-';
+                return;
+            }
+            google.script.run
+                .withSuccessHandler(directUrl => {
+                    const img = document.createElement('img');
+                    img.src = directUrl;
+                    img.className = 'profile-pic';
+                    cell.appendChild(img);
+                })
+                .convertGoogleDriveLink(url);
+        }
+
+        // --- AUTHENTICATION & VIEW MANAGEMENT ---
+        function showLoader(show) {
+            loader.classList.toggle('hidden', !show);
+        }
+
+        function showView(viewName) {
+            loginView.classList.add('hidden');
+            appView.classList.add('hidden');
+            if (viewName === 'login') { // When showing login page
+                loginView.classList.remove('hidden');
+                // Stop the inactivity timer
+                clearTimeout(inactivityTimer);
+            } else if (viewName === 'app') { // When showing main app
+                appView.classList.remove('hidden');
+                // Start/reset the inactivity timer
+                resetInactivityTimer();
+            }
+        }
+
+        function handleLogin(username, passcode) {
+            showLoader(true);
+            const errorMsg = document.getElementById('error-msg');
+            errorMsg.classList.add('hidden');
+
+            google.script.run
+                .withSuccessHandler(response => {
+                    if (response.success) {
+                        sessionToken = response.token;
+                        localStorage.setItem('sessionToken', sessionToken);
+                        localStorage.setItem('username', response.username);
+                        localStorage.setItem('userRole', response.role);
+                        
+                        applyRolePermissions(response.role);
+                        document.getElementById('currentUserDisplay').textContent = `ผู้ใช้: ${response.username} (${response.role})`;
+                        
+                        showView('app');
+                        trackEvent('LOGIN_SUCCESS');
+                        loadData(); // This will hide the loader on success
+                    } else {
+                        showLoader(false);
+                        // Handle rate limiting messages
+                        if (response.error === 'LOCKED') {
+                            errorMsg.textContent = response.message || 'บัญชีถูกล็อกชั่วคราว';
+                        } else if (response.remainingAttempts !== undefined) {
+                            errorMsg.textContent = response.message || `ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง เหลืออีก ${response.remainingAttempts} ครั้ง`;
+                        } else {
+                            errorMsg.textContent = response.message || 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง';
+                        }
+                        errorMsg.classList.remove('hidden');
+                        trackEvent('LOGIN_FAIL');
+                    }
+                })
+                .withFailureHandler(err => {
+                    showLoader(false);
+                    errorMsg.textContent = 'เกิดข้อผิดพลาดในการ Login: ' + err.message;
+                    errorMsg.classList.remove('hidden');
+                    trackEvent('LOGIN_ERROR');
+                })
+                .authenticate(username, passcode, getClientFingerprint());
+        }
+
+        function applyRolePermissions(role) {
+            const isAdmin = role === 'Admin';
+            const addNewBtn = document.getElementById('addNewBtn');
+            const backupBtn = document.getElementById('backupBtn');
+            const deleteBtn = document.getElementById('deleteButton');
+            
+            if (addNewBtn) addNewBtn.style.display = isAdmin ? 'block' : 'none';
+            if (backupBtn) backupBtn.style.display = isAdmin ? 'block' : 'none';
+            // deleteBtn is handled in openDetailModal
+        }
+
+        function handleLogout() {
+            trackEvent('LOGOUT_START');
+            showLoader(true);
+            google.script.run
+                .withSuccessHandler(() => {
+                    sessionToken = null;
+                    localStorage.removeItem('sessionToken');
+                    localStorage.removeItem('username');
+                    localStorage.removeItem('userRole');
+                    showLoader(false);
+                    showView('login');
+                    // Clear table data
+                    tableBody.innerHTML = '';
+                    tableHead.innerHTML = '';
+                    dashboardContainer.innerHTML = '';
+                    trackEvent('LOGOUT_SUCCESS');
+                })
+                .logout(sessionToken);
+        }
+
+        function validateSession() {
+            const storedToken = localStorage.getItem('sessionToken');
+            if (!storedToken) {
+                showView('login');
+                return;
+            }
+
+            showLoader(true);
+            google.script.run
+                .withSuccessHandler(sessionData => {
+                    if (sessionData) {
+                        sessionToken = storedToken;
+                        localStorage.setItem('username', sessionData.username);
+                        localStorage.setItem('userRole', sessionData.role);
+                        
+                        applyRolePermissions(sessionData.role);
+                        document.getElementById('currentUserDisplay').textContent = `ผู้ใช้: ${sessionData.username} (${sessionData.role})`;
+                        
+                        showView('app');
+                        loadData(); // This will hide the loader on success
+                    } else {
+                        localStorage.removeItem('sessionToken');
+                        localStorage.removeItem('username');
+                        localStorage.removeItem('userRole');
+                        showLoader(false);
+                        showView('login');
+                    }
+                })
+                .withFailureHandler(err => {
+                    showLoader(false);
+                    alert('Session validation error: ' + err.message);
+                    localStorage.removeItem('sessionToken');
+                    showView('login');
+                })
+                .getSession(storedToken);
+        }
+
+        /**
+         * Populates the 'Account Status' dropdown with a predefined, fixed list of options.
+         * This ensures data consistency.
+         */
+        function setupStatusDropdown() {
+            const statusSelect = document.getElementById('สถานะบัญชี');
+            if (!statusSelect) return;
+            statusSelect.innerHTML = '<option value="">-- เลือกสถานะ --</option>';
+            accountStatusOptions.forEach(status => {
+                const option = document.createElement('option');
+                option.value = status;
+                option.textContent = status;
+                statusSelect.appendChild(option);
+            });
+        }
+
+        // --- UTILITY FUNCTIONS ---
+
+        /**
+         * Escapes HTML special characters to prevent XSS attacks
+         * @param {string} text - The text to escape
+         * @returns {string} - Escaped text safe for innerHTML
+         */
+        function escapeHtml(text) {
+            if (text == null) return '';
+            const div = document.createElement('div');
+            div.textContent = String(text);
+            return div.innerHTML;
+        }
+
+        /**
+         * Safely sets innerHTML by escaping user data
+         * @param {HTMLElement} element - The element to set innerHTML
+         * @param {string} template - Template string with ${} placeholders
+         * @param {Object} data - Data object with values to escape
+         */
+        function safeSetInnerHTML(element, template, data = {}) {
+            let html = template;
+            // Replace ${key} with escaped values
+            Object.keys(data).forEach(key => {
+                const regex = new RegExp(`\\$\\{${key}\\}`, 'g');
+                html = html.replace(regex, escapeHtml(data[key] || ''));
+            });
+            element.innerHTML = html;
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 3000);
+        }
+
+        /**
+         * Debounce function to limit how often a function is called
+         * @param {Function} func - The function to debounce
+         * @param {number} wait - Milliseconds to wait
+         * @returns {Function} - Debounced function
+         */
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // --- INPUT VALIDATION FUNCTIONS ---
+
+        /**
+         * Validates email format
+         * @param {string} email - Email to validate
+         * @returns {boolean} - True if valid
+         */
+        function isValidEmail(email) {
+            if (!email) return true; // Optional field
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        /**
+         * Validates phone number (Thai format: 10 digits, may start with 0)
+         * @param {string} phone - Phone number to validate
+         * @returns {boolean} - True if valid
+         */
+        function isValidPhone(phone) {
+            if (!phone) return true; // Optional field
+            const phoneRegex = /^[0-9]{9,10}$/;
+            return phoneRegex.test(phone.replace(/[\s-]/g, ''));
+        }
+
+        /**
+         * Validates date is not in the future
+         * @param {string} dateString - Date string to validate
+         * @returns {boolean} - True if valid
+         */
+        function isValidDate(dateString) {
+            if (!dateString) return true; // Optional field
+            const date = new Date(dateString);
+            return !isNaN(date.getTime());
+        }
+
+        /**
+         * Validates date is in the future
+         * @param {string} dateString - Date string to validate
+         * @returns {boolean} - True if valid
+         */
+        function isFutureDate(dateString) {
+            if (!dateString) return true; // Optional field
+            const date = new Date(dateString);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            return date >= today;
+        }
+
+        /**
+         * Validates number is positive
+         * @param {string|number} value - Value to validate
+         * @returns {boolean} - True if valid
+         */
+        function isPositiveNumber(value) {
+            if (!value && value !== 0) return true; // Optional field
+            const num = parseFloat(value);
+            return !isNaN(num) && num >= 0;
+        }
+
+        /**
+         * Validates form data before submission
+         * @param {Object} formData - Form data object
+         * @returns {Object} - {valid: boolean, errors: Array<string>}
+         */
+        function validateFormData(formData) {
+            const errors = [];
+
+            // Email validation
+            if (formData['Email'] && !isValidEmail(formData['Email'])) {
+                errors.push('รูปแบบอีเมลไม่ถูกต้อง');
+            }
+
+            // Phone validation
+            if (formData['Telephone No.'] && !isValidPhone(formData['Telephone No.'])) {
+                errors.push('เบอร์โทรศัพท์ต้องเป็นตัวเลข 9-10 หลัก');
+            }
+
+            // Date validations
+            if (formData['Date of Birth'] && !isValidDate(formData['Date of Birth'])) {
+                errors.push('รูปแบบวันเกิดไม่ถูกต้อง');
+            }
+
+            if (formData['วันที่ซิมหมดอายุ'] && !isValidDate(formData['วันที่ซิมหมดอายุ'])) {
+                errors.push('รูปแบบวันหมดอายุซิมไม่ถูกต้อง');
+            }
+
+            // Number validations
+            if (formData['ยอดเงินในซิม'] && !isPositiveNumber(formData['ยอดเงินในซิม'])) {
+                errors.push('ยอดเงินในซิมต้องเป็นตัวเลขที่มากกว่าหรือเท่ากับ 0');
+            }
+
+            // Required fields for SIM top-up
+            if (formData['ยอดเงินในซิม'] !== undefined && !formData['ยอดเงินในซิม']) {
+                errors.push('กรุณากรอกยอดเงินในซิม');
+            }
+
+            if (formData['วันที่ซิมหมดอายุ'] !== undefined && !formData['วันที่ซิมหมดอายุ']) {
+                errors.push('กรุณาเลือกวันหมดอายุซิม');
+            }
+
+            return {
+                valid: errors.length === 0,
+                errors: errors
+            };
+        }
+
+        // --- CUSTOM CONFIRMATION DIALOG ---
+
+        /**
+         * Shows a custom confirmation modal
+         * @param {string} title - Modal title
+         * @param {string} message - Confirmation message
+         * @param {Function} onConfirm - Callback when confirmed
+         * @param {Function} onCancel - Optional callback when cancelled
+         */
+        function showConfirmModal(title, message, onConfirm, onCancel = null) {
+            confirmModalTitle.textContent = title;
+            confirmModalMessage.textContent = message;
+            confirmModal.style.display = 'flex';
+
+            // Remove existing listeners
+            const newConfirmBtn = confirmModalConfirmBtn.cloneNode(true);
+            confirmModalConfirmBtn.parentNode.replaceChild(newConfirmBtn, confirmModalConfirmBtn);
+            const newCancelBtn = confirmModalCancelBtn.cloneNode(true);
+            confirmModalCancelBtn.parentNode.replaceChild(newCancelBtn, confirmModalCancelBtn);
+
+            // Add new listeners
+            newConfirmBtn.addEventListener('click', () => {
+                closeConfirmModal();
+                if (onConfirm) onConfirm();
+            });
+
+            newCancelBtn.addEventListener('click', () => {
+                closeConfirmModal();
+                if (onCancel) onCancel();
+            });
+        }
+
+        function closeConfirmModal() {
+            confirmModal.style.display = 'none';
+        }
+
+        // --- EXPORT FUNCTIONALITY ---
+
+        /**
+         * Exports account data to CSV format
+         */
+        function exportData() {
+            showLoader(true);
+            trackEvent('EXPORT_START');
+
+            google.script.run
+                .withSuccessHandler(csvData => {
+                    // Add UTF-8 BOM so Excel opens Thai characters correctly
+                    const BOM = '\uFEFF';
+                    const blob = new Blob([BOM + csvData], { type: 'text/csv;charset=utf-8;' });
+                    const link = document.createElement('a');
+                    const url = URL.createObjectURL(blob);
+                    link.setAttribute('href', url);
+                    link.setAttribute('download', `facebook_accounts_${new Date().toISOString().split('T')[0]}.csv`);
+                    link.style.visibility = 'hidden';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    showLoader(false);
+                    showToast('ส่งออกข้อมูลเรียบร้อยแล้ว');
+                    trackEvent('EXPORT_SUCCESS');
+                })
+                .withFailureHandler(error => {
+                    showLoader(false);
+                    showToast(`เกิดข้อผิดพลาดในการส่งออก: ${error.message}`);
+                    trackEvent('EXPORT_ERROR');
+                })
+                .exportAccountsToCSV(sessionToken);
+        }
+
+        // --- MANUAL BACKUP ---
+
+        /**
+         * Triggers a manual backup from the UI
+         */
+        function handleManualBackup() {
+            showConfirmModal(
+                'สำรองข้อมูล',
+                'ต้องการสำรองข้อมูลทันทีใช่หรือไม่? ไฟล์สำรองจะถูกบันทึกใน Google Drive',
+                () => {
+                    showLoader(true);
+                    trackEvent('MANUAL_BACKUP_START');
+                    google.script.run
+                        .withSuccessHandler(result => {
+                            showLoader(false);
+                            if (result.success) {
+                                showToast(`สำรองข้อมูลเรียบร้อยแล้ว: ${result.name}`);
+                                trackEvent('MANUAL_BACKUP_SUCCESS');
+                            } else {
+                                showToast(`เกิดข้อผิดพลาดในการสำรอง: ${result.error}`);
+                                trackEvent('MANUAL_BACKUP_ERROR');
+                            }
+                        })
+                        .withFailureHandler(error => {
+                            showLoader(false);
+                            showToast(`เกิดข้อผิดพลาด: ${error.message}`);
+                            trackEvent('MANUAL_BACKUP_ERROR', { error: error.message });
+                        })
+                        .manualBackup(sessionToken);
+                }
+            );
+        }
+
+        // --- ANALYTICS TRACKING ---
+
+        /**
+         * Tracks user events for analytics
+         * @param {string} eventName - Name of the event
+         * @param {Object} eventData - Optional event data
+         */
+        function trackEvent(eventName, eventData = {}) {
+            if (!sessionToken) return; // Don't track if not logged in
+
+            try {
+                // Send to backend for logging
+                google.script.run
+                    .withSuccessHandler(() => {
+                        // Successfully logged
+                    })
+                    .withFailureHandler(err => {
+                        // Silently fail - don't interrupt user experience
+                        console.error('Analytics tracking failed:', err);
+                    })
+                    .logAnalyticsEvent(eventName, eventData);
+            } catch (e) {
+                // Silently fail
+                console.error('Analytics tracking error:', e);
+            }
+        }
+
+        function copyToClipboard(text, fieldName) {
+            if (!text) {
+                showToast(`ไม่มีข้อมูลในช่อง "${fieldName}" ให้คัดลอก`);
+                return;
+            }
+            navigator.clipboard.writeText(text).then(() => {
+                showToast(`คัดลอก "${fieldName}" เรียบร้อยแล้ว!`);
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+                showToast('เกิดข้อผิดพลาดในการคัดลอก');
+            });
+        }
+
+        function updateDashboard() {
+            const statusCounts = allAccounts.reduce((acc, account) => {
+                const status = account['สถานะบัญชี'] || 'ไม่มีสถานะ';
+                acc[status] = (acc[status] || 0) + 1;
+                return acc;
+            }, {});
+
+            dashboardContainer.innerHTML = ''; // Clear previous cards
+
+            // Create "Total" card first
+            createDashboardCard('ทั้งหมด', allAccounts.length, 'all');
+
+            // Create cards for each status, sorted alphabetically
+            Object.entries(statusCounts)
+                .sort(([statusA], [statusB]) => {
+                    const indexA = accountStatusOptions.indexOf(statusA);
+                    const indexB = accountStatusOptions.indexOf(statusB);
+
+                    // If both are in the desired order, sort by their index
+                    if (indexA !== -1 && indexB !== -1) {
+                        return indexA - indexB;
+                    }
+                    // If only A is in the desired order, A comes first
+                    if (indexA !== -1) {
+                        return -1;
+                    }
+                    // If only B is in the desired order, B comes first
+                    if (indexB !== -1) {
+                        return 1;
+                    }
+                    // If neither are in the desired order (e.g., 'ไม่มีสถานะ'), sort them alphabetically
+                    return statusA.localeCompare(statusB, 'th-TH');
+                }).forEach(([status, count]) => {
+                    createDashboardCard(status, count, status);
+                });
+
+            updateActiveCard();
+        }
+
+        function createDashboardCard(status, count, filterValue) {
+            const card = document.createElement('div');
+            card.className = 'dashboard-card';
+            card.dataset.filterValue = filterValue;
+            // ✅ Use escapeHtml to prevent XSS from sheet data
+            card.innerHTML = `<h3>${escapeHtml(status)}</h3><p>${escapeHtml(String(count))}</p>`;
+
+            card.addEventListener('click', () => {
+                // Set the filter value
+                currentStatusFilter = filterValue === 'all' ? '' : filterValue;
+
+                // FIX: Reset sorting to default when a dashboard card is clicked
+                currentSort.column = 'FB No.';
+                currentSort.direction = 'asc';
+
+                currentPage = 1;
+                handleSearchAndFilter();
+            });
+
+            dashboardContainer.appendChild(card);
+        }
+        function updateActiveCard() {
+            const currentFilter = currentStatusFilter;
+            document.querySelectorAll('.dashboard-card').forEach(card => {
+                const isActive = (currentFilter === '' && card.dataset.filterValue === 'all') || (currentFilter === card.dataset.filterValue);
+                card.classList.toggle('active', isActive);
+            });
+        }
+
+        function updateExpiringSimsAlert() {
+            const expiringSims = allAccounts.filter(acc => {
+                const remainingDays = acc['วันใช้งานคงเหลือ'];
+                // Check if it's a number and 10 days or less (including expired)
+                return remainingDays != null && remainingDays !== '' && !isNaN(remainingDays) && parseInt(remainingDays, 10) <= 10;
+            });
+
+            expiringSimsSummaryBox.innerHTML = ''; // Clear summary box
+            expiringSimsList.innerHTML = ''; // Clear modal list
+
+            if (expiringSims.length > 0) {
+                // Sort by remaining days, ascending
+                expiringSims.sort((a, b) => {
+                    const daysA = parseInt(a['วันใช้งานคงเหลือ'], 10);
+                    const daysB = parseInt(b['วันใช้งานคงเหลือ'], 10);
+                    return daysA - daysB;
+                });
+
+                // 1. Build the summary box
+                const warningIconSvg = `
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                    </svg>`;
+                const summaryBoxHtml = `
+                    <div class="alert-summary-box warning" onclick="openExpiringSimsModal()">
+                        <div class="alert-summary-icon">${warningIconSvg}</div>
+                        <div class="alert-summary-text">
+                            <p>${escapeHtml(expiringSims.length)} บัญชี</p>
+                            <span>ซิมใกล้หมดอายุ</span>
+                        </div>
+                    </div>
+                `;
+                expiringSimsSummaryBox.innerHTML = summaryBoxHtml;
+
+                // 2. Build the modal list
+                const listItemsHtml = expiringSims.map(acc => {
+                    const remainingDays = acc['วันใช้งานคงเหลือ'];
+                    const isExpired = remainingDays < 0;
+                    const daysText = isExpired ? 'หมดอายุแล้ว' : (remainingDays == 0 ? 'หมดอายุวันนี้' : `เหลือ ${remainingDays} วัน`);
+                    return `
+                        <li data-account-id="${escapeHtml(acc.ID)}">
+                            <span class="account-info">${escapeHtml(acc['FB No.'])} (${escapeHtml(acc['Facebook Name'] || 'N/A')})</span>
+                            <span class="days-remaining ${isExpired ? 'expired' : ''}">${escapeHtml(daysText)}</span>
+                        </li>`;
+                }).join('');
+                expiringSimsList.innerHTML = listItemsHtml;
+
+                // 3. Add event listeners to modal list items
+                expiringSimsList.querySelectorAll('li').forEach(item => {
+                    item.addEventListener('click', (e) => {
+                        const accountId = e.currentTarget.dataset.accountId;
+                        if (accountId) {
+                            closeExpiringSimsModal(); // Close this popup first
+                            openSimTopUpModal(accountId); // Then open the SIM top-up modal(accountId); // Then open the detail modal
+                        }
+                    });
+                });
+
+            } else {
+                // Build the "all clear" summary box
+                const successIconSvg = `
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                    </svg>`;
+                const summaryBoxHtml = `
+                    <div class="alert-summary-box success">
+                        <div class="alert-summary-icon">${successIconSvg}</div>
+                        <div class="alert-summary-text">
+                            <p>ยอดเยี่ยม!</p>
+                            <span>ไม่มีซิมใกล้หมดอายุ</span>
+                        </div>
+                    </div>
+                `;
+                expiringSimsSummaryBox.innerHTML = summaryBoxHtml;
+            }
+
+            expiringSimsSummaryBox.classList.remove('hidden');
+        }
+
+        // --- MODAL FUNCTIONS ---
+
+        function openTab(evt, tabName) {
+            // Get all elements with class="tab-content" and hide them
+            const tabcontent = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove('active');
+            }
+
+            // Get all elements with class="tab-link" and remove the class "active"
+            const tablinks = document.getElementsByClassName("tab-link");
+            for (let i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(tabName).classList.add('active');
+            evt.currentTarget.classList.add("active");
+        }
+
+        function openExpiringSimsModal() {
+            expiringSimsModal.style.display = 'flex';
+        }
+
+        function closeExpiringSimsModal() {
+            expiringSimsModal.style.display = 'none';
+        }
+
+        function openDetailModal(accountId = null) {
+            form.reset();
+            // Clear all dirty states from previous session
+            form.querySelectorAll('.is-dirty').forEach(el => el.classList.remove('is-dirty'));
+            currentEditingAccountData = {}; // Reset original data tracker
+
+            // Hide profile pic by default
+            modalProfileContainer.style.display = 'none';
+            modalProfileImage.src = '';
+
+            // Reset tabs to the first one
+            document.getElementById('mainInfoTab').classList.add('active');
+            document.querySelector('.tab-link[onclick*="mainInfoTab"]').classList.add('active');
+            document.getElementById('businessInfoTab').classList.remove('active');
+            document.querySelector('.tab-link[onclick*="businessInfoTab"]').classList.remove('active');
+
+            const deleteBtn = document.getElementById('deleteButton');
+            const topUpBtn = document.getElementById('topUpButton');
+
+            if (accountId) {
+                // Edit mode
+                modalTitle.textContent = 'แก้ไขรายละเอียดบัญชี';
+                const accountData = allAccounts.find(acc => String(acc.ID) === String(accountId));
+                // Store a copy of the original data for dirty checking
+                currentEditingAccountData = accountData ? { ...accountData } : {};
+
+                if (accountData) {
+                    const profilePicUrl = accountData['รูปโปรไฟล์'];
+
+                    if (profilePicUrl) {
+                        google.script.run
+                            .withSuccessHandler(directUrl => {
+                                modalProfileImage.src = directUrl;
+                                modalProfileContainer.style.display = 'block';
+                            })
+                            .withFailureHandler(error => {
+                                alert('เกิดข้อผิดพลาดในการโหลดรูปโปรไฟล์: ' + error.message);
+                            })
+                            .convertGoogleDriveLink(profilePicUrl);
+                    }
+
+                    // Populate all fields across both forms
+                    const allEditableFields = [...allFormFields, ...businessFormFields];
+                    allEditableFields.forEach(key => {
+                        if (form.elements[key]) {
+                            let value = accountData[key] || '';
+                            // For number inputs like 'Age', round the value to ensure it's an integer.
+                            if (form.elements[key].type === 'number' && value !== '') {
+                                value = Math.round(parseFloat(value));
+                            }
+                            form.elements[key].value = value;
+                        }
+                    });
+                } else {
+                }
+                deleteBtn.style.display = localStorage.getItem('userRole') === 'Admin' ? 'block' : 'none';
+                topUpBtn.style.display = 'block';  // แสดงปุ่มเติมเงิน
+                // CRITICAL FIX: Set the hidden ID field for form submission
+                document.getElementById('ID').value = accountId;
+            } else {
+                // Add new mode
+                modalTitle.textContent = 'เพิ่มบัญชีใหม่';
+                document.getElementById('ID').value = '';
+                deleteBtn.style.display = 'none';
+                topUpBtn.style.display = 'none';  // ซ่อนปุ่มเติมเงิน
+            }
+            modal.style.display = 'flex';
+        }
+
+        function closeDetailModal() {
+            modal.style.display = 'none'; // This is correct
+        }
+
+        function openTopUpFromDetail() {
+            const accountId = document.getElementById('ID').value;
+            if (accountId) {
+                closeDetailModal();
+                openSimTopUpModal(accountId);
+            } else {
+                showToast('กรุณาบันทึกข้อมูลก่อนเติมเงิน');
+            }
+        }
+
+        function openSimTopUpModal(accountId) {
+            const form = document.getElementById('simTopUpForm');
+            form.reset();
+            const accountData = allAccounts.find(acc => String(acc.ID) === String(accountId));
+            if (accountData) {
+                // Populate the account info display area
+                const infoContainer = document.getElementById('simTopUpAccountInfo');
+                // Use safe innerHTML with escaped data
+                const infoHtml = `
+                    <div class="info-row">
+                        <span class="info-label">FB No.</span>
+                        <span class="info-value">${escapeHtml(accountData['FB No.'] || '-')}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Name</span>
+                        <span class="info-value">${escapeHtml(accountData['Facebook Name'] || '-')}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Tel</span>
+                        <span class="info-value">${escapeHtml(accountData['Telephone No.'] || '-')}</span>
+                    </div>
+                `;
+                infoContainer.innerHTML = infoHtml;
+
+                document.getElementById('simTopUpId').value = accountId;
+                document.getElementById('simBalance').value = accountData['ยอดเงินในซิม'] || '';
+                document.getElementById('simExpiryDate').value = accountData['วันที่ซิมหมดอายุ'] || '';
+                simTopUpModal.style.display = 'flex';
+            } else {
+                alert('ไม่พบบัญชีที่ต้องการ');
+            }
+        }
+
+        function closeSimTopUpModal() {
+            simTopUpModal.style.display = 'none';
+        }
+
+        function handleSimTopUpSubmit() {
+            const form = document.getElementById('simTopUpForm');
+            const data = {
+                ID: form.elements['simTopUpId'].value,
+                'ยอดเงินในซิม': form.elements['simBalance'].value,
+                'วันที่ซิมหมดอายุ': form.elements['simExpiryDate'].value,
+                // Automatically set the 'last top-up date' to today
+                'วันที่เติมเงินล่าสุด': new Date().toISOString().split('T')[0]
+            };
+
+            // Validate form data
+            const validation = validateFormData(data);
+            if (!validation.valid) {
+                showToast(validation.errors.join(', '));
+                trackEvent('SIM_TOPUP_VALIDATION_FAIL', { errors: validation.errors });
+                return;
+            }
+
+            showLoader(true);
+            trackEvent('SIM_TOPUP_START', { accountId: data.ID });
+
+            google.script.run
+                .withSuccessHandler(result => {
+                    showToast('บันทึกการเติมเงินเรียบร้อยแล้ว');
+                    closeSimTopUpModal();
+                    trackEvent('SIM_TOPUP_SUCCESS', { accountId: data.ID });
+                    loadData(); // This will also hide the loader
+                })
+                .withFailureHandler(error => {
+                    console.error('Error submitting top-up form:', error);
+                    showToast(`เกิดข้อผิดพลาด: ${error.message}`);
+                    trackEvent('SIM_TOPUP_ERROR', { error: error.message });
+                    showLoader(false);
+                })
+                .saveAccount(data, sessionToken, 'SIM_TOPUP');
+        }
+
+        function handleInputChange(event) {
+            const inputElement = event.target;
+            const fieldName = inputElement.name;
+
+            // Only perform check if in edit mode (original data is available)
+            if (Object.keys(currentEditingAccountData).length === 0) {
+                return;
+            }
+
+            // Handle potential null/undefined from sheet vs empty string from input
+            const originalValue = currentEditingAccountData[fieldName] || '';
+            const currentValue = inputElement.value;
+
+            if (String(currentValue) !== String(originalValue)) {
+                inputElement.classList.add('is-dirty');
+            } else {
+                inputElement.classList.remove('is-dirty');
+            }
+        }
+
+        function handleSort(event) {
+            let newSortColumn = event.currentTarget.dataset.column;
+            if (!newSortColumn) return;
+
+            // แปลง 'วันคงเหลือ' เป็น 'วันใช้งานคงเหลือ' สำหรับ sorting
+            if (newSortColumn === 'วันคงเหลือ') {
+                newSortColumn = 'วันใช้งานคงเหลือ';
+            }
+
+            if (currentSort.column === newSortColumn) {
+                currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSort.column = newSortColumn;
+                currentSort.direction = 'asc';
+            }
+            handleSearchAndFilter();
+        }
+
+        function updatePaginationControls(totalRows) {
+            const totalPages = Math.ceil(totalRows / rowsPerPage);
+
+            if (totalPages <= 1) {
+                paginationContainer.style.display = 'none';
+                return;
+            }
+
+            paginationContainer.style.display = 'flex';
+            pageInfo.textContent = `หน้า ${currentPage} จาก ${totalPages}`;
+            prevPageBtn.disabled = currentPage === 1;
+            nextPageBtn.disabled = currentPage >= totalPages;
+        }
+
+        // --- DATA HANDLING & RENDERING ---
+
+        function loadData(isManualRefresh = false) {
+            if (!sessionToken) return; // Don't load if not authenticated
+            showLoader(true);
+            if (isManualRefresh) {
+                trackEvent('DATA_REFRESH');
+            }
+            google.script.run
+                .withSuccessHandler(data => {
+                    allAccounts = data;
+                    updateDashboard();
+                    updateExpiringSimsAlert();
+                    handleSearchAndFilter(); // Apply default sort/filter on initial load
+                    if (isManualRefresh) {
+                        showToast('ข้อมูลอัปเดตล่าสุดแล้ว!');
+                        trackEvent('DATA_REFRESH_SUCCESS', { count: data.length });
+                    } else {
+                        trackEvent('DATA_LOAD', { count: data.length });
+                    }
+                    showLoader(false);
+                })
+                .withFailureHandler(error => {
+                    console.error('Error loading data:', error);
+                    showToast(`เกิดข้อผิดพลาดในการโหลดข้อมูล: ${error.message}`);
+                    trackEvent('DATA_LOAD_ERROR', { error: error.message });
+                    showLoader(false);
+                })
+                .getAccounts(sessionToken);
+        }
+
+        function renderTable(accountsToRender) {
+            tableHead.innerHTML = '';
+            tableBody.innerHTML = '';
+
+            // Create headers
+            dashboardColumns.forEach(headerText => {
+                const th = document.createElement('th');
+                th.textContent = headerText;
+
+                // Make 'วันคงเหลือ' sortable
+                if (headerText === 'วันคงเหลือ') {
+                    th.classList.add('sortable');
+                    th.dataset.column = 'วันคงเหลือ';
+                    th.addEventListener('click', handleSort);
+
+                    if (currentSort.column === 'วันใช้งานคงเหลือ' || currentSort.column === 'วันคงเหลือ') {
+                        th.classList.add(currentSort.direction === 'asc' ? 'sort-asc' : 'sort-desc');
+                    }
+                }
+
+                tableHead.appendChild(th);
+            });
+
+            // Pagination logic
+            const startIndex = (currentPage - 1) * rowsPerPage;
+            const endIndex = startIndex + rowsPerPage;
+            const paginatedItems = accountsToRender.slice(startIndex, endIndex);
+
+            // Create data rows
+            if (paginatedItems.length === 0) {
+                const tr = document.createElement('tr');
+                const td = document.createElement('td');
+                td.colSpan = dashboardColumns.length;
+                if (accountsToRender.length > 0) {
+                    td.textContent = 'ไม่พบข้อมูลในหน้านี้';
+                } else {
+                    td.textContent = 'ไม่พบข้อมูลที่ตรงตามเงื่อนไข';
+                }
+                td.style.textAlign = 'center';
+                tr.appendChild(td);
+                tableBody.appendChild(tr);
+                return;
+            }
+
+            paginatedItems.forEach(row => {
+                const tr = document.createElement('tr');
+                dashboardColumns.forEach(header => {
+                    const td = document.createElement('td');
+                    if (header === 'Actions') {
+                        td.classList.add('actions-cell');
+                        // ลบปุ่ม "ดู/แก้ไข" ออก - เหลือแค่ปุ่มเติมเงิน
+                        const topUpButton = document.createElement('button');
+                        topUpButton.textContent = 'เติมเงิน';
+                        topUpButton.className = 'top-up';
+                        topUpButton.onclick = () => openSimTopUpModal(row.ID);
+                        td.appendChild(topUpButton);
+                    } else if (header === 'รูปโปรไฟล์') {
+                        td.classList.add('profile-pic-cell');
+                        convertLinkAndRenderImage(td, row[header]);
+                    } else if (header === 'Facebook Name') {
+                        // ทำให้ชื่อ Facebook คลิกได้
+                        td.classList.add('facebook-name-cell');
+                        td.textContent = row[header] || '-';
+                        td.style.cursor = 'pointer';
+                        td.onclick = () => openDetailModal(row.ID);
+                    } else if (header === 'วันคงเหลือ') {
+                        // ข้อมูลวันคงเหลืออยู่ตรงกลาง
+                        td.classList.add('days-remaining-cell');
+                        td.textContent = row['วันใช้งานคงเหลือ'] || '-';  // ใช้ชื่อเดิมจาก data
+                    } else {
+                        td.textContent = row[header] || '-';
+                    }
+                    tr.appendChild(td);
+                });
+                tableBody.appendChild(tr);
+            });
+        }
+
+        function handleSearchAndFilter() {
+            const searchTerm = (searchInput.value || '').trim().toLowerCase();
+            const statusValue = currentStatusFilter;
+
+            let filteredAccounts = allAccounts.filter(account => {
+                const matchesStatus = !statusValue || account['สถานะบัญชี'] === statusValue;
+
+                // If search term is empty, show all accounts (that match status filter)
+                if (!searchTerm) {
+                    return matchesStatus;
+                }
+
+                // Search in multiple fields
+                const matchesSearch =
+                    (account['FB No.'] && String(account['FB No.']).toLowerCase().includes(searchTerm)) ||
+                    (account['Facebook Name'] && String(account['Facebook Name']).toLowerCase().includes(searchTerm)) ||
+                    (account['User Facebook'] && String(account['User Facebook']).toLowerCase().includes(searchTerm)) ||
+                    (account['Email'] && String(account['Email']).toLowerCase().includes(searchTerm)) ||
+                    (account['Telephone No.'] && String(account['Telephone No.']).toLowerCase().includes(searchTerm));
+
+                return matchesStatus && matchesSearch;
+            });
+
+            // Special filter: If sorting by 'วันใช้งานคงเหลือ', only include rows with a valid, non-negative number.
+            if (currentSort.column === 'วันใช้งานคงเหลือ') {
+                filteredAccounts = filteredAccounts.filter(account => {
+                    const remainingDays = account['วันใช้งานคงเหลือ'];
+                    // Check if it's not null/undefined, not an empty string, and is a valid number (positive, negative, or zero).
+                    return remainingDays != null && remainingDays !== '' && !isNaN(remainingDays);
+                });
+            }
+
+            // After filtering, apply sorting
+            filteredAccounts.sort((a, b) => {
+                const valA = a[currentSort.column];
+                const valB = b[currentSort.column];
+
+                // Handle numeric sorting for 'วันใช้งานคงเหลือ'
+                if (currentSort.column === 'วันใช้งานคงเหลือ') {
+                    // The list is pre-filtered, so we can safely parse to integers.
+                    const numA = parseInt(valA, 10);
+                    const numB = parseInt(valB, 10);
+                    return currentSort.direction === 'asc' ? numA - numB : numB - numA;
+                }
+
+                // Default sort for other columns (like 'FB No.') using natural sort
+                const strA = String(valA || '');
+                const strB = String(valB || '');
+                const comparison = strA.localeCompare(strB, 'th-TH-u-co-thai', { numeric: true });
+                return currentSort.direction === 'asc' ? comparison : -comparison;
+            });
+
+            // Update pagination controls based on the full filtered list
+            updatePaginationControls(filteredAccounts.length);
+
+            updateActiveCard();
+
+            renderTable(filteredAccounts);
+        }
+
+        function handleFormSubmit() {
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            // Validate form data
+            const validation = validateFormData(data);
+            if (!validation.valid) {
+                showToast(validation.errors.join(', '));
+                trackEvent('FORM_VALIDATION_FAIL', { errors: validation.errors });
+                return;
+            }
+
+            const isNewAccount = !data.ID;
+            showLoader(true);
+            trackEvent(isNewAccount ? 'ACCOUNT_CREATE_START' : 'ACCOUNT_UPDATE_START');
+
+            google.script.run
+                .withSuccessHandler(result => {
+                    showToast(`ข้อมูลถูกบันทึกเรียบร้อยแล้ว`);
+                    closeDetailModal();
+                    trackEvent(isNewAccount ? 'ACCOUNT_CREATE_SUCCESS' : 'ACCOUNT_UPDATE_SUCCESS');
+                    loadData(); // This will also hide the loader
+                })
+                .withFailureHandler(error => {
+                    console.error('Error submitting form:', error);
+                    showToast(`เกิดข้อผิดพลาด: ${error.message}`);
+                    trackEvent(isNewAccount ? 'ACCOUNT_CREATE_ERROR' : 'ACCOUNT_UPDATE_ERROR', { error: error.message });
+                    showLoader(false);
+                })
+                .saveAccount(data, sessionToken);
+        }
+
+        function deleteCurrentAccount() {
+            const idToDelete = document.getElementById('ID').value;
+            if (idToDelete) deleteRow(idToDelete);
+        }
+
+        function deleteRow(id) {
+            showConfirmModal(
+                'ยืนยันการลบข้อมูล',
+                'คุณแน่ใจหรือไม่ว่าต้องการลบข้อมูลนี้? การกระทำนี้ไม่สามารถย้อนกลับได้',
+                () => {
+                    showLoader(true);
+                    trackEvent('ACCOUNT_DELETE_START', { accountId: id });
+                    google.script.run
+                        .withSuccessHandler(result => {
+                            showToast('ข้อมูลถูกลบเรียบร้อยแล้ว');
+                            trackEvent('ACCOUNT_DELETE_SUCCESS', { accountId: id });
+                            loadData(); // This will also hide the loader
+                            closeDetailModal();
+                        })
+                        .withFailureHandler(error => {
+                            console.error('Error deleting row:', error);
+                            showToast(`เกิดข้อผิดพลาดในการลบ: ${error.message}`);
+                            trackEvent('ACCOUNT_DELETE_ERROR', { error: error.message });
+                            showLoader(false);
+                        })
+                        .deleteAccountById(id, sessionToken);
+                }
+            );
+        }
+
+        // --- INACTIVITY TIMEOUT ---
+        let inactivityTimer;
+        // Set inactivity timeout to 30 minutes (in milliseconds)
+        const INACTIVITY_TIMEOUT_MS = 30 * 60 * 1000;
+
+        /**
+         * Resets the inactivity timer. If the timer runs out, it logs the user out.
+         */
+        function resetInactivityTimer() {
+            clearTimeout(inactivityTimer);
+            inactivityTimer = setTimeout(() => {
+                // Only perform logout if a session is active and the app view is visible
+                if (sessionToken && !appView.classList.contains('hidden')) {
+                    document.getElementById('inactivityModal').style.display = 'flex';
+                    handleLogout();
+                }
+            }, INACTIVITY_TIMEOUT_MS);
+        }
+
+        /**
+         * Sets up event listeners to detect user activity.
+         */
+        function setupInactivityListeners() {
+            ['mousemove', 'keydown', 'click', 'scroll'].forEach(event => {
+                window.addEventListener(event, resetInactivityTimer, { passive: true });
+            });
+        }
+
+        // --- INITIALIZATION ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- LIFF INITIALIZATION ---
+            const LIFF_ID = '2010020221-YgWcy73D';
+            
+            async function initLiff() {
+                try {
+                    await liff.init({ liffId: LIFF_ID });
+                    if (liff.isLoggedIn()) {
+                        const profile = await liff.getProfile();
+                        // แสดงข้อมูล LINE เบื้องต้น
+                        const loginHeader = document.querySelector('#login-view h1');
+                        if (loginHeader && liff.isInClient()) {
+                            loginHeader.innerHTML = `สวัสดีคุณ ${profile.displayName}<br><span style="font-size: 1rem; opacity: 0.8;">กรุณาเข้าสู่ระบบ Account Manager</span>`;
+                        }
+                        
+                        // เก็บข้อมูล LINE ไว้เผื่อใช้ตรวจสอบสิทธิ์ในอนาคต
+                        localStorage.setItem('line_profile', JSON.stringify(profile));
+                        
+                        // แสดงรูปโปรไฟล์ LINE ใน Header ถ้าล็อกอินแล้ว
+                        updateLineProfileUI(profile);
+                    } else if (liff.isInClient()) {
+                        liff.login();
+                    }
+                } catch (err) {
+                    console.error('LIFF Initialization failed', err);
+                }
+            }
+
+            function updateLineProfileUI(profile) {
+                const headerLeft = document.querySelector('.header-left');
+                if (headerLeft && profile) {
+                    let lineBadge = document.getElementById('lineBadge');
+                    if (!lineBadge) {
+                        lineBadge = document.createElement('div');
+                        lineBadge.id = 'lineBadge';
+                        lineBadge.style.display = 'flex';
+                        lineBadge.style.alignItems = 'center';
+                        lineBadge.style.gap = '8px';
+                        lineBadge.style.background = 'rgba(255,255,255,0.1)';
+                        lineBadge.style.padding = '4px 12px';
+                        lineBadge.style.borderRadius = '20px';
+                        lineBadge.style.marginLeft = '12px';
+                        headerLeft.appendChild(lineBadge);
+                    }
+                    lineBadge.innerHTML = `
+                        <img src="${profile.pictureUrl}" style="width: 24px; height: 24px; border-radius: 50%;">
+                        <span style="font-size: 0.8rem; color: white;">${profile.displayName}</span>
+                    `;
+                }
+            }
+
+            initLiff();
+
+            // --- AUTHENTICATION LISTENERS ---
+            document.getElementById('login-form').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const username = document.getElementById('username').value;
+                const passcode = document.getElementById('passcode').value;
+                handleLogin(username, passcode);
+            });
+
+            document.getElementById('logout-btn').addEventListener('click', () => {
+                document.getElementById('logout-confirm-modal').style.display = 'flex';
+            });
+            document.getElementById('cancel-logout-btn').addEventListener('click', () => {
+                document.getElementById('logout-confirm-modal').style.display = 'none';
+            });
+            document.getElementById('confirm-logout-btn').addEventListener('click', () => {
+                document.getElementById('logout-confirm-modal').style.display = 'none';
+                handleLogout();
+            });
+
+            // Setup listeners for inactivity logout
+            setupInactivityListeners();
+
+            // Start session validation
+            validateSession();
+
+            // --- APPLICATION LISTENERS ---
+
+            createFormFields();
+            setupStatusDropdown();
+
+            // Listener for the new inactivity modal's OK button
+            document.getElementById('inactivityOkBtn').addEventListener('click', () => {
+                document.getElementById('inactivityModal').style.display = 'none';
+            });
+
+            // Add input listeners to all form fields for dirty checking
+            const allEditableFields = [...allFormFields, ...businessFormFields];
+            allEditableFields.forEach(fieldName => {
+                const inputElement = document.getElementById(fieldName);
+                if (inputElement) {
+                    inputElement.addEventListener('input', handleInputChange);
+                }
+            });
+
+            // Search and Filter listeners with debounce
+            const debouncedSearch = debounce(() => {
+                currentPage = 1;
+                handleSearchAndFilter();
+            }, SEARCH_DEBOUNCE_MS);
+
+            searchInput.addEventListener('input', debouncedSearch);
+
+            // Pagination button listeners
+            prevPageBtn.addEventListener('click', () => {
+                currentPage--;
+                handleSearchAndFilter();
+            });
+            nextPageBtn.addEventListener('click', () => {
+                currentPage++;
+                handleSearchAndFilter();
+            });
+
+            // Helper function to close all modals
+            function closeAllModals() {
+                closeDetailModal();
+                closeSimTopUpModal();
+                closeExpiringSimsModal();
+                closeConfirmModal();
+                if (inactivityModal) inactivityModal.style.display = 'none';
+                if (logoutConfirmModal) logoutConfirmModal.style.display = 'none';
+            }
+
+            // --- KEYBOARD SHORTCUTS ---
+            document.addEventListener('keydown', (e) => {
+                // Don't trigger shortcuts when typing in inputs
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
+                    return;
+                }
+
+                // Ctrl/Cmd + K: Focus search
+                if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                    e.preventDefault();
+                    searchInput.focus();
+                    searchInput.select();
+                }
+
+                // Esc: Close modals
+                if (e.key === 'Escape') {
+                    closeAllModals();
+                }
+
+                // Enter: Submit form if modal is open
+                if (e.key === 'Enter' && modal.style.display === 'flex') {
+                    const activeTab = document.querySelector('.tab-content.active');
+                    if (activeTab && activeTab.id === 'mainInfoTab') {
+                        handleFormSubmit();
+                    }
+                }
+            });
+        });
+
+    </script>
+</body>
+
+</html>
