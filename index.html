@@ -142,7 +142,7 @@ button.refresh { color: var(--color-primary); }
 #error-msg { color: var(--color-danger); font-size: 0.85rem; margin-top: 10px; }
 
 /* --- Dashboard Dashboard --- */
-.dashboard-grid {
+.dashboard-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 15px;
@@ -203,6 +203,15 @@ td.facebook-name-cell { color: var(--color-primary); font-weight: 600; cursor: p
 .tab-content.active { display: block; }
 .hidden { display: none !important; }
 
+/* Alert Boxes */
+.alert-summary-box {
+    display: flex; align-items: center; gap: 10px; padding: 10px 15px; border-radius: var(--radius-md);
+    font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.2s;
+}
+.alert-summary-box.warning { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);}
+.alert-summary-box.success { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+.alert-summary-icon svg { width: 24px; height: 24px; flex-shrink: 0; }
+
 /* Loader */
 .loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.7); z-index: 3000; display: flex; justify-content: center; align-items: center; }
 .spinner { width: 40px; height: 40px; border: 3px solid #ddd; border-top-color: var(--color-primary); border-radius: 50%; animation: spin 1s linear infinite; }
@@ -223,8 +232,12 @@ td.facebook-name-cell { color: var(--color-primary); font-weight: 600; cursor: p
     
     .container { padding: 10px; }
     
+    .controls { flex-direction: column !important; align-items: stretch !important; gap: 10px !important; }
+    .search-box { width: 100% !important; }
+    .alert-summary-box { width: 100% !important; justify-content: center !important; }
+    
     /* Dashboard Grid 2 columns for smaller cards */
-    .dashboard-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px; }
+    .dashboard-container { grid-template-columns: repeat(2, 1fr) !important; gap: 10px; }
     .dashboard-card { padding: 10px; min-width: 0; }
     .dashboard-card:first-child { grid-column: span 2; } /* 'All' card spans full width */
     .dashboard-card p { font-size: 1.2rem; }
