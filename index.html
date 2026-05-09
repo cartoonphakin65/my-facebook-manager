@@ -1010,8 +1010,6 @@ td.facebook-name-cell { color: var(--color-primary); font-weight: 600; cursor: p
                     showLoader(false);
                     errorMsg.textContent = 'ID หรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง';
                     errorMsg.classList.remove('hidden');
-                })
-                    errorMsg.classList.remove('hidden');
                     trackEvent('LOGIN_ERROR');
                 })
                 .authenticate(username, passcode, getClientFingerprint());
