@@ -360,14 +360,15 @@ input[type="date"] {
 .loader-text { margin-top: 20px; font-weight: 600; color: var(--color-primary); font-size: 1rem; animation: pulse 1.5s infinite; }
 @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
 
-/* --- Premium Toast Notification --- */
+/* --- Premium Toast Notification (White Theme) --- */
 .toast {
-    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px);
-    background: rgba(15, 23, 42, 0.9); color: white; padding: 14px 28px;
-    border-radius: 50px; z-index: 10000; font-weight: 500; font-size: 0.95rem;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    display: flex; align-items: center; gap: 10px; backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.1); pointer-events: none; opacity: 0;
+    position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%) translateY(100px);
+    background: rgba(255, 255, 255, 0.95); color: var(--color-text); padding: 12px 24px;
+    border-radius: 50px; z-index: 10000; font-weight: 600; font-size: 0.95rem;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex; align-items: center; gap: 10px; backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(0,0,0,0.05); pointer-events: none; opacity: 0;
+    max-width: 90vw; white-space: nowrap;
 }
 .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 .toast-icon { font-size: 1.2rem; }
