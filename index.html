@@ -289,12 +289,16 @@ td.facebook-name-cell { color: var(--color-primary); font-weight: 600; cursor: p
    ?? MOBILE RESPONSIVENESS (SUPER IMPORTANT)
 ============================================ */
 @media (max-width: 850px) {
-    /* Hide the text title in header, keep actions scrollable */
-    header { padding: 10px; flex-direction: column; align-items: flex-start; gap: 10px;}
-    header h1 { display: none !important; } /* Hide on mobile because LIFF shows title */
+    /* Allow header to show overflow for the dropdown menu */
+    header { 
+        padding: 10px 15px; flex-direction: row !important; align-items: center !important; 
+        justify-content: space-between !important; gap: 10px; overflow: visible !important; 
+    }
+    header h1 { display: none !important; }
     .header-actions { 
-        width: 100%; overflow-x: auto; padding-bottom: 5px; 
-        -webkit-overflow-scrolling: touch; display: flex; flex-wrap: nowrap; justify-content: flex-start;
+        width: auto !important; overflow: visible !important; 
+        display: flex !important; flex-wrap: nowrap !important; justify-content: flex-end !important;
+        padding: 0 !important;
     }
     .header-actions::-webkit-scrollbar { display: none; }
     
