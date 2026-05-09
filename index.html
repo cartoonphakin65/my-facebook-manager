@@ -289,6 +289,13 @@ td.facebook-name-cell { color: var(--color-primary); font-weight: 600; cursor: p
 }
 #pageInfo { font-weight: 600; color: #64748b; font-size: 0.9rem; background: #f8fafc; padding: 6px 16px; border-radius: 20px; }
 
+/* Modal Info Box */
+.modal-info-box { background: #f8fafc; padding: 15px; border-radius: var(--radius-md); border: 1px solid rgba(0,0,0,0.05); }
+.info-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px dashed #e2e8f0; padding-bottom: 8px; gap: 15px; }
+.info-row:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
+.info-label { font-weight: 600; color: #64748b; font-size: 0.85rem; flex-shrink: 0; }
+.info-value { color: var(--color-text); font-weight: 500; display: flex; align-items: center; gap: 6px; text-align: right; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+
 /* Loader */
 .loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.7); z-index: 3000; display: flex; justify-content: center; align-items: center; }
 .spinner { width: 40px; height: 40px; border: 3px solid #ddd; border-top-color: var(--color-primary); border-radius: 50%; animation: spin 1s linear infinite; }
@@ -1654,6 +1661,8 @@ td.facebook-name-cell { color: var(--color-primary); font-weight: 600; cursor: p
                 // Populate the account info display area
                 const infoContainer = document.getElementById('simTopUpAccountInfo');
                 // Use safe innerHTML with escaped data
+                const copyIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" style="display:inline-block; vertical-align:middle;"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg>`;
+                
                 const infoHtml = `
                     <div class="info-row">
                         <span class="info-label">FB No.</span>
@@ -1665,10 +1674,10 @@ td.facebook-name-cell { color: var(--color-primary); font-weight: 600; cursor: p
                     </div>
                     <div class="info-row">
                         <span class="info-label">Tel</span>
-                        <span class="info-value" style="display: flex; align-items: center; gap: 8px;">
-                            ${escapeHtml(accountData['Telephone No.'] || '-')}
-                            ${accountData['Telephone No.'] ? `<span class="copy-icon" onclick="copyToClipboard('${escapeHtml(accountData['Telephone No.'])}', 'เบอร์โทร')" title="Copy Telephone">⧉</span>` : ''}
-                        </span>
+                        <div class="info-value">
+                            <span>${escapeHtml(accountData['Telephone No.'] || '-')}</span>
+                            ${accountData['Telephone No.'] ? `<span class="copy-icon" onclick="copyToClipboard('${escapeHtml(accountData['Telephone No.'])}', 'เบอร์โทร')" title="Copy Telephone">${copyIconSvg}</span>` : ''}
+                        </div>
                     </div>
                 `;
                 infoContainer.innerHTML = infoHtml;
