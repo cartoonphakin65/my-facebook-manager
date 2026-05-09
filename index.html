@@ -287,9 +287,15 @@ td.facebook-name-cell { color: var(--color-primary); font-weight: 600; cursor: p
     background-size: 16px !important;
     padding-right: 40px !important;
 }
-/* Fix date input width in some browsers */
+/* Fix date input width in some browsers (especially iOS/LIFF) */
 input[type="date"] {
     min-height: 42px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    margin: 0 !important;
 }
 .modal-tabs { display: flex; gap: 15px; border-bottom: 1px solid #eee; margin-bottom: 15px; }
 .tab-btn { padding: 8px 0; background: none; border: none; font-weight: 500; color: #999; border-bottom: 2px solid transparent; border-radius: 0; }
