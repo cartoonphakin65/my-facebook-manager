@@ -95,30 +95,35 @@ header h1 {
 button, .btn {
     font-family: var(--font-family);
     font-size: 0.85rem;
-    font-weight: 500;
-    padding: 8px 16px;
+    font-weight: 600;
+    padding: 8px 18px;
     border-radius: var(--radius-pill);
-    border: 1px solid rgba(0,0,0,0.05);
+    border: none;
     cursor: pointer;
     transition: all 0.2s ease;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
-    background: white;
-    color: var(--color-text);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    background: #f1f5f9;
+    color: #475569;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
     white-space: nowrap;
 }
 
 button:hover, .btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+    background: #e2e8f0;
+    color: var(--color-primary-dark);
 }
 
-button.add-new { background: var(--color-success); color: white; border: none; }
-button.refresh { color: var(--color-primary); }
-#logout-btn { background: rgba(239, 68, 68, 0.1); color: var(--color-danger); border: none;}
+button.add-new { background: linear-gradient(135deg, var(--color-primary), var(--color-secondary)); color: white; box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);}
+button.add-new:hover { background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary)); color: white;}
+
+button.refresh { background: white; color: var(--color-primary); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+#logout-btn { background: #fee2e2; color: var(--color-danger); }
+#logout-btn:hover { background: var(--color-danger); color: white; }
 
 .top-up { background: var(--color-warning); color: white; font-size: 0.8rem; padding: 6px 12px; border: none;}
 
@@ -273,6 +278,9 @@ td.facebook-name-cell { color: var(--color-primary); font-weight: 600; cursor: p
     .facebook-name-cell { justify-content: center !important; padding-top: 30px !important; font-size: 1.1rem !important; border-bottom: 1px solid #eee !important;}
     .facebook-name-cell::before { display: none !important; }
     
+    td[data-label="FB No."] { background: #f8fafc !important; border-radius: 12px 12px 0 0 !important; padding: 12px 15px !important; margin: -15px -15px 10px -15px !important; border-bottom: 1px solid #e2e8f0 !important; font-weight: 600 !important; color: var(--color-primary) !important;}
+    td[data-label="FB No."]::before { color: #64748b !important; }
+
     .actions-cell { flex-direction: column !important; align-items: stretch !important; margin-top: 10px !important; border-bottom: none !important; }
     .actions-cell::before { display: none !important; }
     .actions-cell button { width: 100% !important; padding: 10px !important; font-size: 0.9rem !important;}
@@ -660,7 +668,7 @@ td.facebook-name-cell { color: var(--color-primary); font-weight: 600; cursor: p
         const SEARCH_DEBOUNCE_MS = 300; // Wait 300ms after user stops typing
 
         // Columns to display on the main dashboard, added 'ออนที่' and 'ซิมอยู่ที่'
-        const dashboardColumns = ['รูปโปรไฟล์', 'FB No.', 'Facebook Name', 'สถานะบัญชี', 'ออนที่', 'ซิมอยู่ที่', 'วันคงเหลือ', 'Actions'];
+        const dashboardColumns = ['FB No.', 'รูปโปรไฟล์', 'Facebook Name', 'สถานะบัญชี', 'ออนที่', 'ซิมอยู่ที่', 'วันคงเหลือ', 'Actions'];
 
         // Fields that are calculated automatically and should not be edited by the user.
         const readOnlyFields = ['Age', 'อายุเฟส', 'อายุเข้าตัวจัดการ', 'อายุสร้างเพจ', 'วันใช้งานคงเหลือ', 'วันที่เติมเงินล่าสุด'];
@@ -1917,15 +1925,16 @@ td.facebook-name-cell { color: var(--color-primary); font-weight: 600; cursor: p
                         lineBadge.style.display = 'flex';
                         lineBadge.style.alignItems = 'center';
                         lineBadge.style.gap = '8px';
-                        lineBadge.style.background = 'rgba(255,255,255,0.1)';
-                        lineBadge.style.padding = '4px 12px';
-                        lineBadge.style.borderRadius = '20px';
-                        lineBadge.style.marginLeft = '12px';
+                        lineBadge.style.background = 'var(--glass-bg)';
+                        lineBadge.style.padding = '6px 12px';
+                        lineBadge.style.borderRadius = '30px';
+                        lineBadge.style.border = '1px solid rgba(0,0,0,0.05)';
+                        lineBadge.style.boxShadow = '0 2px 10px rgba(0,0,0,0.05)';
                         headerLeft.appendChild(lineBadge);
                     }
                     lineBadge.innerHTML = `
-                        <img src="${profile.pictureUrl}" style="width: 24px; height: 24px; border-radius: 50%;">
-                        <span style="font-size: 0.8rem; color: white;">${profile.displayName}</span>
+                        <img src="${profile.pictureUrl}" style="width: 28px; height: 28px; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <span style="font-size: 0.85rem; font-weight: 600; color: var(--color-primary);">${profile.displayName}</span>
                     `;
                 }
             }
