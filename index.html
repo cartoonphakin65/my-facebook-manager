@@ -174,8 +174,9 @@ button.refresh { background: white; color: var(--color-primary); box-shadow: 0 2
 }
 .search-box { flex: 1; }
 .search-input {
-    width: 100%; padding: 10px 15px; border-radius: var(--radius-pill); border: 1px solid rgba(0,0,0,0.1);
-    font-family: var(--font-family); font-size: 0.9rem; outline: none; background: white;
+    width: 100%; padding: 14px 20px; border-radius: var(--radius-pill); border: 1px solid rgba(0,0,0,0.1);
+    font-family: var(--font-family); font-size: 1rem; outline: none; background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 .search-input:focus { border-color: var(--color-primary); }
 
@@ -197,7 +198,7 @@ td.facebook-name-cell { color: var(--color-primary); font-weight: 600; cursor: p
 @keyframes slideUp { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
 .modal-header { padding: 20px 25px; border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }
 .modal-header h2 { font-size: 1.3rem; margin: 0; color: var(--color-text); }
-.close-button { font-size: 1.5rem; cursor: pointer; color: #94a3b8; border: none; background: none; transition: 0.2s; }
+.close-button { font-size: 1.8rem; cursor: pointer; color: #94a3b8; border: none; background: none; transition: 0.2s; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; flex-shrink: 0; }
 .close-button:hover { color: var(--color-danger); transform: rotate(90deg); }
 .modal-body-scrollable { padding: 20px 25px; overflow-y: auto; flex: 1; }
 .modal-footer { padding: 15px 25px; border-top: 1px solid rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; gap: 10px; background: #f8fafc; border-radius: 0 0 var(--radius-lg) var(--radius-lg); }
@@ -262,11 +263,12 @@ td.facebook-name-cell { color: var(--color-primary); font-weight: 600; cursor: p
     .search-box { width: 100% !important; }
     .alert-summary-box { width: 100% !important; justify-content: center !important; }
     
-    /* Dashboard Grid 2 columns for smaller cards */
-    .dashboard-container { grid-template-columns: repeat(2, 1fr) !important; gap: 10px; }
+    /* Dashboard Grid: 2 rows x 3 columns on mobile */
+    .dashboard-container { grid-template-columns: repeat(3, 1fr) !important; gap: 8px; }
     .dashboard-card { padding: 10px; min-width: 0; }
-    .dashboard-card:first-child { grid-column: span 2; } /* 'All' card spans full width */
-    .dashboard-card p { font-size: 1.2rem; }
+    .dashboard-card:first-child { grid-column: span 1; } /* Reset span - 3-col layout */
+    .dashboard-card p { font-size: 1.1rem; }
+    .dashboard-card h3 { font-size: 0.65rem; }
     
     /* Transform Table into beautiful Cards */
     .table-container { background: transparent !important; box-shadow: none !important; overflow-x: visible !important; border: none !important; }
@@ -327,13 +329,35 @@ td.facebook-name-cell { color: var(--color-primary); font-weight: 600; cursor: p
     /* Mobile Footer Buttons Redesign */
     .modal-footer { 
         background: transparent !important; border-top: none !important; padding: 10px 20px 20px 20px !important;
-        flex-direction: column-reverse !important; align-items: stretch !important; gap: 10px !important;
+        flex-direction: column !important; align-items: stretch !important; gap: 8px !important;
     }
+    /* Edit modal footer: 2x2 grid (save + cancel on top row, delete + top-up on bottom) */
+    #detailModal .modal-footer {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        grid-template-areas: 'right right' 'left left' !important;
+        gap: 8px !important;
+    }
+    #detailModal .modal-footer .right-actions {
+        grid-area: right !important;
+        display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 8px !important;
+        width: 100% !important;
+    }
+    #detailModal .modal-footer .left-actions {
+        grid-area: left !important;
+        display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 8px !important;
+        width: 100% !important;
+    }
+    /* Top-up modal footer: single row */
+    #simTopUpModal .modal-footer .right-actions {
+        display: flex !important; flex-direction: row !important; gap: 8px !important; width: 100% !important;
+    }
+    #simTopUpModal .modal-footer .right-actions button { flex: 1 !important; padding: 10px !important; font-size: 0.9rem !important; }
+    /* Default other modals */
     .modal-footer .left-actions, .modal-footer .right-actions { 
-        display: flex !important; flex-direction: column !important; align-items: stretch !important; width: 100% !important; gap: 10px !important;
+        display: flex !important; flex-direction: row !important; align-items: stretch !important; width: 100% !important; gap: 8px !important;
     }
-    .modal-footer .right-actions { flex-direction: column-reverse !important; } /* Save button on top of Cancel */
-    .modal-footer button { width: 100% !important; padding: 14px !important; font-size: 1rem !important; justify-content: center !important; margin: 0 !important; }
+    .modal-footer button { width: 100% !important; padding: 12px !important; font-size: 0.9rem !important; justify-content: center !important; margin: 0 !important; }
     
     @keyframes slideUpMobile { from { transform: translateY(100%); } to { transform: translateY(0); } }
 }
@@ -380,7 +404,8 @@ td.facebook-name-cell { color: var(--color-primary); font-weight: 600; cursor: p
                 <button class="add-new" id="addNewBtn" onclick="openDetailModal()">+ เพิ่มบัญชีใหม่</button>
                 <button class="refresh" onclick="exportData()" title="ส่งออกข้อมูลเป็น CSV">📥 ส่งออกข้อมูล</button>
                 <button class="refresh" id="backupBtn" onclick="handleManualBackup()" title="สำรองข้อมูลทันที">💾 สำรองข้อมูล</button>
-                <!-- Logout button removed and moved to profile picture click -->
+                <!-- Fallback logout button: shown only when no LINE profile badge is available -->
+                <button id="fallback-logout-btn" onclick="document.getElementById('logout-confirm-modal').style.display='flex'" style="background:#fee2e2; color:#ef4444;">🚪 ออกจากระบบ</button>
             </div>
         </header>
 
@@ -1993,6 +2018,9 @@ td.facebook-name-cell { color: var(--color-primary); font-weight: 600; cursor: p
                     lineBadge.onclick = () => {
                         document.getElementById('logout-confirm-modal').style.display = 'flex';
                     };
+                    // Hide the fallback logout button since LINE badge is now visible
+                    const fallbackBtn = document.getElementById('fallback-logout-btn');
+                    if (fallbackBtn) fallbackBtn.style.display = 'none';
                 }
             }
 
