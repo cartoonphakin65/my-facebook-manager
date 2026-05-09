@@ -266,12 +266,13 @@ td.facebook-name-cell { color: var(--color-primary); font-weight: 600; cursor: p
 .form-field-group label { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--color-text-muted); margin-bottom: 4px; }
 .form-field-group input, 
 .form-field-group select { 
-    width: 100% !important; padding: 12px 14px !important; 
+    width: 100% !important; padding: 10px 14px !important; 
     border: 1px solid rgba(0,0,0,0.1) !important; border-radius: 10px !important; 
     font-family: var(--font-family) !important; outline: none !important; 
     transition: all 0.2s !important; background: white !important;
-    box-sizing: border-box !important; height: 46px !important;
+    box-sizing: border-box !important; display: block !important;
     font-size: 0.95rem !important; color: var(--color-text);
+    max-width: 100% !important; min-width: 0 !important;
 }
 .form-field-group input:focus,
 .form-field-group select:focus { 
@@ -285,6 +286,10 @@ td.facebook-name-cell { color: var(--color-primary); font-weight: 600; cursor: p
     background-position: right 12px center !important;
     background-size: 16px !important;
     padding-right: 40px !important;
+}
+/* Fix date input width in some browsers */
+input[type="date"] {
+    min-height: 42px !important;
 }
 .modal-tabs { display: flex; gap: 15px; border-bottom: 1px solid #eee; margin-bottom: 15px; }
 .tab-btn { padding: 8px 0; background: none; border: none; font-weight: 500; color: #999; border-bottom: 2px solid transparent; border-radius: 0; }
