@@ -58,6 +58,9 @@ body {
     background-attachment: fixed;
     min-height: 100vh;
     font-size: 14px;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
 }
 
 /* Scrollbar */
@@ -190,13 +193,18 @@ td.facebook-name-cell { color: var(--color-primary); font-weight: 600; cursor: p
 .profile-pic { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
 
 /* --- Modals --- */
-.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 2000; align-items: center; justify-content: center; padding: 15px; }
-.modal-content { background: white; border-radius: var(--radius-md); width: 100%; max-width: 600px; max-height: 90vh; display: flex; flex-direction: column; animation: slideUp 0.2s; }
-@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-.modal-header { padding: 15px 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
-.close-button { font-size: 1.5rem; cursor: pointer; color: #999; border: none; background: none; }
-.modal-body-scrollable { padding: 20px; overflow-y: auto; }
-.modal-footer { padding: 15px 20px; border-top: 1px solid #eee; display: flex; justify-content: flex-end; gap: 10px; background: #fafafa; }
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 2000; align-items: center; justify-content: center; padding: 15px; }
+.modal-content { background: white; border-radius: var(--radius-lg); width: 100%; max-width: 600px; max-height: 90vh; display: flex; flex-direction: column; animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.modal-header { padding: 20px 25px; border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }
+.modal-header h2 { font-size: 1.3rem; margin: 0; color: var(--color-text); }
+.close-button { font-size: 1.5rem; cursor: pointer; color: #94a3b8; border: none; background: none; transition: 0.2s; }
+.close-button:hover { color: var(--color-danger); transform: rotate(90deg); }
+.modal-body-scrollable { padding: 20px 25px; overflow-y: auto; flex: 1; }
+.modal-footer { padding: 15px 25px; border-top: 1px solid rgba(0,0,0,0.05); display: flex; justify-content: flex-end; gap: 10px; background: #f8fafc; border-radius: 0 0 var(--radius-lg) var(--radius-lg); }
+
+.modal-profile-container { text-align: center; margin-bottom: 20px; }
+.modal-profile-image { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 4px solid white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: inline-block; }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 .form-field-group label { display: block; font-size: 0.8rem; color: var(--color-text-muted); margin-bottom: 4px; }
 .form-field-group input { width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; font-family: var(--font-family); outline: none; }
@@ -286,6 +294,22 @@ td.facebook-name-cell { color: var(--color-primary); font-weight: 600; cursor: p
     .actions-cell button { width: 100% !important; padding: 10px !important; font-size: 0.9rem !important;}
     
     .form-grid { grid-template-columns: 1fr !important; gap: 10px !important;}
+    
+    /* Bottom Sheet Modals for Mobile */
+    .modal { padding: 0 !important; align-items: flex-end !important; }
+    .modal-content { 
+        border-radius: 24px 24px 0 0 !important; 
+        max-height: 90vh !important;
+        margin: 0 !important; 
+        width: 100% !important;
+        animation: slideUpMobile 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+    .modal-header { padding: 20px 20px 10px 20px !important; border-bottom: none !important; }
+    .modal-body-scrollable { padding: 10px 20px 20px 20px !important; }
+    .modal-footer { background: transparent !important; border-top: none !important; padding: 10px 20px 20px 20px !important; }
+    
+    @keyframes slideUpMobile { from { transform: translateY(100%); } to { transform: translateY(0); } }
 }
 </style>
 
